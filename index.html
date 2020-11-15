@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/67cd12d136.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="./style/style.css" />
+    <title>Mine Sweeper</title>
+  </head>
+
+  <body>
+    <header>
+      <select id="game-mode">
+        <option value="easy">Easy</option>
+        <option value="normal">Normal</option>
+        <option value="hard">Hard</option>
+      </select>
+      <div id="mood">
+        <i class="far fa-laugh-beam"></i>
+        <i class="far fa-dizzy"></i>
+      </div>
+      <div id="data">
+        <div class="remaining-flags">
+          <i class="far fa-flag"></i>
+          <p></p>
+        </div>
+        <div class="time-spent">
+          <i class="far fa-clock"></i>
+          <p></p>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div id="game-grid"></div>
+      <!-- <i class="fas fa-bomb"></i> -->
+    </main>
+
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>
