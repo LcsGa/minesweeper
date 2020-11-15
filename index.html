@@ -7,7 +7,12 @@
       src="https://kit.fontawesome.com/67cd12d136.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="./style/style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style/scss/style.css" />
     <title>Mine Sweeper</title>
   </head>
 
@@ -15,21 +20,21 @@
     <header>
       <select id="game-mode">
         <option value="easy">Easy</option>
-        <option value="normal">Normal</option>
+        <option value="medium">Medium</option>
         <option value="hard">Hard</option>
       </select>
       <div id="mood">
         <i class="far fa-laugh-beam"></i>
-        <i class="far fa-dizzy"></i>
+        <i class="far fa-dizzy hidden"></i>
       </div>
       <div id="data">
         <div class="remaining-flags">
           <i class="far fa-flag"></i>
-          <p></p>
+          <p>10</p>
         </div>
         <div class="time-spent">
           <i class="far fa-clock"></i>
-          <p></p>
+          <p>00</p>
         </div>
       </div>
     </header>

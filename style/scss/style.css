@@ -1,1 +1,46 @@
-/* No CSS *//*# sourceMappingURL=style.css.map */
+header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background: #1d2733;
+  color: #dee5f2;
+  padding: 0.5rem;
+}
+
+header #game-mode {
+  color: #dee5f2;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+header #game-mode option {
+  background: #1d2733;
+}
+
+header #mood {
+  font-size: 1.5rem;
+}
+
+header #mood .hidden {
+  display: none;
+}
+
+:root {
+  font-size: 16px;
+  font-family: "Roboto", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+/*# sourceMappingURL=style.css.map */
