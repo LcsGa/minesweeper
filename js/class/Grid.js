@@ -1,4 +1,4 @@
-import { Cell, cellHTML } from "./Cell.js";
+import { Cell } from "./Cell.js";
 
 const gridHTML = document.querySelector("#grid");
 
@@ -27,7 +27,7 @@ export class Grid {
       for (const columnIndex of this.grid[lineIndex].keys()) {
         gridHTML.insertAdjacentHTML(
           "beforeend",
-          cellHTML(lineIndex, columnIndex)
+          Cell.cellHTML(lineIndex, columnIndex)
         );
       }
     }
