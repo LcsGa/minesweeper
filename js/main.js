@@ -1,4 +1,4 @@
-import {MineSweeper} from "./MineSweeper.js";
+import { MineSweeper } from "./class/MineSweeper.js";
 
 // easy : 9 * 9 / 10 bombs
 // medium : 16 * 16 / 40 bombs
