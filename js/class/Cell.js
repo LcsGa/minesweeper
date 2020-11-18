@@ -15,7 +15,7 @@ export class Cell {
   static cellTemplate(numberOfColumns) {
     const sideLength = `calc(calc(${
       document.querySelector("#grid").clientWidth
-    }px - calc(2px * ${numberOfColumns - 1})) / ${numberOfColumns})`;
+    }px - calc(1px * ${numberOfColumns - 1})) / ${numberOfColumns})`;
     return `height:${sideLength};width:${sideLength}`;
   }
 }
