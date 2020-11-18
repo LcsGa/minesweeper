@@ -1,3 +1,4 @@
+import { Bombs } from "./Bombs.js";
 import { Cell } from "./Cell.js";
 
 const gridHTML = document.querySelector("#grid");

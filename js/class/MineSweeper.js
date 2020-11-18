@@ -12,17 +12,17 @@ export class MineSweeper extends Grid {
     switch (this.gameMode) {
       case "easy": {
         this.grid = new Grid(9, 9).grid;
-        new Bombs(10);
+        new Bombs(10, this.grid);
         break;
       }
       case "medium": {
         this.grid = new Grid(16, 16).grid;
-        new Bombs(30);
+        new Bombs(30, this.grid);
         break;
       }
       case "hard": {
         this.grid = new Grid(30, 16).grid;
-        new Bombs(80);
+        new Bombs(80, this.grid);
         break;
       }
       default: {

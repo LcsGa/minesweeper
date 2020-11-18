@@ -19,8 +19,8 @@ export class Cell {
     return `height:${sideLength};width:${sideLength}`;
   }
 
-  static cellIndex(cell) {
-    const id = cell.id;
+  static cellIndex(/*cell,*/ id) {
+    // const id = cell.id;
     switch (id.length) {
       case 4: {
         return {
@@ -55,8 +55,8 @@ export class Cell {
 
     cells.forEach((cell) => {
       cell.addEventListener("click", (e) => {
-        gameGrid[this.cellIndex(e.target).line][
-          this.cellIndex(e.target).column
+        gameGrid[this.cellIndex(e.target.id).line][
+          this.cellIndex(e.target.id).column
         ].isOpened = true;
         e.target.classList.add("visible");
       });
