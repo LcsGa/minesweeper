@@ -3,10 +3,6 @@ const bombsLeft = document.querySelector("#bombs-left");
 export class Bombs {
   constructor(numberOfBombs, grid) {
     this.numberOfBombs = numberOfBombs;
-    this.initBombs(grid);
-  }
-
-  initBombs(grid) {
     this.initBombsLeftHTML();
     this.bombsCoordinates = this.setBombsCoordinates(grid);
     this.initBombsObj(grid);

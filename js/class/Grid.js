@@ -6,11 +6,6 @@ const gridHTML = document.querySelector("#grid");
 export class Grid {
   constructor(numberOfLines, numberOfColumns) {
     this.grid = [];
-    this.initGrid(numberOfLines, numberOfColumns);
-  }
-
-  initGrid(numberOfLines, numberOfColumns) {
-    gridHTML.innerHTML = "";
     this.initGridObject(numberOfLines, numberOfColumns);
     this.initGridHTML(numberOfColumns);
     this.initGridTempalte(numberOfLines, numberOfColumns);
@@ -26,6 +21,7 @@ export class Grid {
   }
 
   initGridHTML(numberOfColumns) {
+    gridHTML.innerHTML = "";
     for (const lineIndex of this.grid.keys()) {
       for (const columnIndex of this.grid[lineIndex].keys()) {
         gridHTML.insertAdjacentHTML(
