@@ -1,4 +1,5 @@
 import { Grid } from "./Grid.js";
+import { Bombs } from "./Bombs.js";
 
 export class MineSweeper extends Grid {
   constructor(gameMode) {
@@ -10,15 +11,18 @@ export class MineSweeper extends Grid {
   initGameMode() {
     switch (this.gameMode) {
       case "easy": {
-        new Grid(9, 9);
+        this.grid = new Grid(9, 9).grid;
+        new Bombs(10);
         break;
       }
       case "medium": {
-        new Grid(16, 16);
+        this.grid = new Grid(16, 16).grid;
+        new Bombs(30);
         break;
       }
       case "hard": {
-        new Grid(30, 16);
+        this.grid = new Grid(30, 16).grid;
+        new Bombs(80);
         break;
       }
       default: {

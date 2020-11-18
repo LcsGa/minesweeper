@@ -74,7 +74,15 @@ header #data div p {
   background: #ddd;
   -webkit-box-shadow: inset 0 -2px 0 #aaa, inset 2px 0 0 #ccc;
           box-shadow: inset 0 -2px 0 #aaa, inset 2px 0 0 #ccc;
+  border-radius: 3px;
   cursor: pointer;
+}
+
+.cell.visible {
+  background: #ececec;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  cursor: default;
 }
 
 :root {
@@ -97,7 +105,6 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  height: 100vh;
 }
 
 body main {

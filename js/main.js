@@ -1,16 +1,15 @@
 import "./style/mobile_viewport_height.js";
 import { MineSweeper } from "./class/MineSweeper.js";
-
-// easy : 9 * 9 / 10 bombs
-// medium : 16 * 16 / 40 bombs
-// hard : 16 * 30 / 99 bombs
+import { Cell } from "./class/Cell.js";
 
 const gameMode = document.querySelector("select");
 
 // init gameMode
-let ms = new MineSweeper(gameMode.value);
+let game = new MineSweeper(gameMode.value);
+Cell.open(game.grid);
 
 // change gameMode
 gameMode.addEventListener("change", () => {
-  const ms = new MineSweeper(gameMode.value);
+  game = new MineSweeper(gameMode.value);
+  Cell.open(game.grid);
 });

@@ -19,7 +19,7 @@ export class Grid {
     for (let line = 0; line < numberOfLines; line++) {
       this.grid.push([]);
       for (let column = 0; column < numberOfColumns; column++) {
-        this.grid[line].push(new Cell(true, false, false, 0));
+        this.grid[line].push(new Cell(false, false, false, 0));
       }
     }
   }
