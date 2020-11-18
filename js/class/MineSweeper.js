@@ -22,7 +22,7 @@ export class MineSweeper extends Grid {
         break;
       }
       default: {
-        console.error(`${this.gameMode} doesn't match any game-mode`);
+        console.error(`${this.gameMode} does not match any game-mode`);
       }
     }
   }

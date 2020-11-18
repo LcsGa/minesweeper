@@ -3,7 +3,17 @@
   align-items: center;
 }
 
+@mixin x-y-centered {
+  @include y-centered;
+  justify-content: center;
+}
+
 @mixin y-centered-x-space-between {
   @include y-centered;
   justify-content: space-between;
+}
+
+@mixin flexed-column {
+  display: flex;
+  flex-direction: column;
 }

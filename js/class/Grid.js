@@ -9,8 +9,10 @@ export class Grid {
   }
 
   initGrid(numberOfLines, numberOfColumns) {
+    gridHTML.innerHTML = "";
     this.initGridObject(numberOfLines, numberOfColumns);
-    this.initGridHTML();
+    this.initGridHTML(numberOfColumns);
+    this.initGridTempalte(numberOfLines, numberOfColumns);
   }
 
   initGridObject(numberOfLines, numberOfColumns) {
@@ -22,14 +24,18 @@ export class Grid {
     }
   }
 
-  initGridHTML() {
+  initGridHTML(numberOfColumns) {
     for (const lineIndex of this.grid.keys()) {
       for (const columnIndex of this.grid[lineIndex].keys()) {
         gridHTML.insertAdjacentHTML(
           "beforeend",
-          Cell.cellHTML(lineIndex, columnIndex)
+          Cell.cellHTML(lineIndex, columnIndex, numberOfColumns)
         );
       }
     }
+  }
+
+  initGridTempalte(numberOfLines, numberOfColumns) {
+    gridHTML.style.gridTemplate = `repeat(${numberOfLines},1fr) / repeat(${numberOfColumns},1fr)`;
   }
 }

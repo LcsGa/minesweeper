@@ -3,19 +3,33 @@ header {
   background: $darkblue;
   color: $white;
   padding: 0.5rem;
+  & > *:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    width: 110px;
+  }
   #game-mode {
     color: $white;
     border: none;
     outline: none;
-    background: rgba(255, 255, 255, 0.1);
     option {
       background: $darkblue;
     }
   }
   #mood {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     .hidden {
       display: none;
+    }
+  }
+  #data {
+    @include y-centered-x-space-between;
+    div {
+      @include y-centered;
+      p {
+        margin-left: 0.3rem;
+      }
     }
   }
 }

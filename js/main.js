@@ -4,4 +4,12 @@ import { MineSweeper } from "./class/MineSweeper.js";
 // medium : 16 * 16 / 40 bombs
 // hard : 16 * 30 / 99 bombs
 
-const ms = new MineSweeper("easy");
+const gameMode = document.querySelector("select");
+
+// init gameMode
+let ms = new MineSweeper(gameMode.value);
+
+// change gameMode
+gameMode.addEventListener("change", () => {
+  const ms = new MineSweeper(gameMode.value);
+});
