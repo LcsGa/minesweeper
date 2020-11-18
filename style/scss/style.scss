@@ -17,7 +17,6 @@
 
 body {
   @include flexed-column;
-  height: 100vh;
   main {
     @include x-y-centered;
     flex-grow: 1;
