@@ -1,3 +1,4 @@
+import "./style/mobile_viewport_height.js";
 import { MineSweeper } from "./class/MineSweeper.js";
 
 // easy : 9 * 9 / 10 bombs
