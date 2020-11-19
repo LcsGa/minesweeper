@@ -1,4 +1,5 @@
 import { Grid } from "./Grid.js";
+import { Cell } from "./Cell.js";
 import { Bombs } from "./Bombs.js";
 
 export class MineSweeper extends Grid {
@@ -6,6 +7,8 @@ export class MineSweeper extends Grid {
     super();
     this.gameMode = gameMode;
     this.initGameMode();
+    Cell.addNumberOfBombsTouched(this.grid);
+    Cell.open(this.grid);
   }
 
   initGameMode() {
@@ -16,13 +19,13 @@ export class MineSweeper extends Grid {
         break;
       }
       case "medium": {
-        this.grid = new Grid(16, 16).grid;
-        new Bombs(40, this.grid);
+        this.grid = new Grid(16, 12).grid;
+        new Bombs(30, this.grid);
         break;
       }
       case "hard": {
-        this.grid = new Grid(30, 16).grid;
-        new Bombs(90, this.grid);
+        this.grid = new Grid(25, 12).grid;
+        new Bombs(62, this.grid);
         break;
       }
       default: {

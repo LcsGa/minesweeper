@@ -67,8 +67,215 @@ export class Cell {
           this.cellIndex(e.target.id).column
         ].isOpened = true;
         e.target.classList.add("visible");
-        Bombs.displayBomb(gameGrid, e.target);
+        this.displayElementWithinCell(gameGrid, e.target);
       });
     });
+  }
+
+  static addNumberOfBombsTouched(gameGrid) {
+    gameGrid.forEach((line, lineIndex) => {
+      for (const columnIndex of line.keys()) {
+        this.adjacentCells(gameGrid, lineIndex, columnIndex).forEach(
+          (adjacentCell) => {
+            if (adjacentCell !== undefined && adjacentCell.hasBomb) {
+              gameGrid[lineIndex][columnIndex].nbOfBombsTouched++;
+            }
+          }
+        );
+      }
+    });
+  }
+
+  static adjacentCells(gameGrid, lineIndex, columnIndex) {
+    switch (lineIndex) {
+      case 0: {
+        switch (columnIndex) {
+          case 0: {
+            return this.setAdjacentCells(
+              gameGrid,
+              lineIndex,
+              columnIndex,
+              false,
+              false,
+              false,
+              true,
+              true,
+              true,
+              false,
+              false
+            );
+          }
+          case gameGrid[0].length - 1: {
+            return this.setAdjacentCells(
+              gameGrid,
+              lineIndex,
+              columnIndex,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true,
+              true,
+              true
+            );
+          }
+          default: {
+            return this.setAdjacentCells(
+              gameGrid,
+              lineIndex,
+              columnIndex,
+              false,
+              false,
+              false,
+              true,
+              true,
+              true,
+              true,
+              true
+            );
+          }
+        }
+      }
+      case gameGrid.length - 1: {
+        switch (columnIndex) {
+          case 0: {
+            return this.setAdjacentCells(
+              gameGrid,
+              lineIndex,
+              columnIndex,
+              false,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false
+            );
+          }
+          case gameGrid[0].length - 1: {
+            return this.setAdjacentCells(
+              gameGrid,
+              lineIndex,
+              columnIndex,
+              true,
+              true,
+              false,
+              false,
+              false,
+              false,
+              false,
+              true
+            );
+          }
+          default: {
+            return this.setAdjacentCells(
+              gameGrid,
+              lineIndex,
+              columnIndex,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false,
+              false,
+              true
+            );
+          }
+        }
+      }
+      default: {
+        switch (columnIndex) {
+          case 0: {
+            return this.setAdjacentCells(
+              gameGrid,
+              lineIndex,
+              columnIndex,
+              false,
+              true,
+              true,
+              true,
+              true,
+              true,
+              false,
+              false
+            );
+          }
+          case gameGrid[0].length - 1: {
+            return this.setAdjacentCells(
+              gameGrid,
+              lineIndex,
+              columnIndex,
+              true,
+              true,
+              false,
+              false,
+              false,
+              true,
+              true,
+              true
+            );
+          }
+          default: {
+            return this.setAdjacentCells(
+              gameGrid,
+              lineIndex,
+              columnIndex,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true
+            );
+          }
+        }
+      }
+    }
+  }
+
+  static setAdjacentCells(
+    gameGrid,
+    line,
+    column,
+    topLeft,
+    topMiddle,
+    topRight,
+    right,
+    bottomRight,
+    bottomMiddle,
+    bottomLeft,
+    left
+  ) {
+    return [
+      topLeft ? gameGrid[line - 1][column - 1] : undefined,
+      topMiddle ? gameGrid[line - 1][column] : undefined,
+      topRight ? gameGrid[line - 1][column + 1] : undefined,
+      right ? gameGrid[line][column + 1] : undefined,
+      bottomRight ? gameGrid[line + 1][column + 1] : undefined,
+      bottomMiddle ? gameGrid[line + 1][column] : undefined,
+      bottomLeft ? gameGrid[line + 1][column - 1] : undefined,
+      left ? gameGrid[line][column - 1] : undefined,
+    ];
+  }
+
+  static displayElementWithinCell(gameGrid, cellClicked) {
+    const cell =
+      gameGrid[this.cellIndex(cellClicked.id).line][
+        this.cellIndex(cellClicked.id).column
+      ];
+
+    if (cell.nbOfBombsTouched > 0) {
+      cellClicked.innerHTML = `<p class="nb-${cell.nbOfBombsTouched}">${cell.nbOfBombsTouched}</p>`;
+    }
+
+    if (cell.hasBomb) {
+      cellClicked.innerHTML = `<i class="fas fa-bomb"></i>`;
+      cellClicked.classList.add("has-bomb");
+    }
   }
 }

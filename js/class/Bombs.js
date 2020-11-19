@@ -30,12 +30,11 @@ export class Bombs {
       bombsCoordinates.push(`L${bombPosition.line}C${bombPosition.column}`);
     }
 
-    console.log(bombsCoordinates);
     return bombsCoordinates;
   }
 
-  initBombsObj(grid) {
-    grid.forEach((line, lineIndex) => {
+  initBombsObj(gameGrid) {
+    gameGrid.forEach((line, lineIndex) => {
       line.forEach((cell, columnIndex) => {
         cell.hasBomb = this.bombsCoordinates.includes(
           `L${lineIndex}C${columnIndex}`
@@ -44,17 +43,5 @@ export class Bombs {
           : false;
       });
     });
-  }
-
-  static displayBomb(gameGrid, cellClicked) {
-    const cell =
-      gameGrid[Cell.cellIndex(cellClicked.id).line][
-        Cell.cellIndex(cellClicked.id).column
-      ];
-
-    if (cell.hasBomb) {
-      cellClicked.classList.add("has-bomb");
-      cellClicked.innerHTML = `<i class="fas fa-bomb"></i>`;
-    }
   }
 }

@@ -6,10 +6,8 @@ const gameMode = document.querySelector("select");
 
 // init gameMode
 let game = new MineSweeper(gameMode.value);
-Cell.open(game.grid);
 
 // change gameMode
 gameMode.addEventListener("change", () => {
   game = new MineSweeper(gameMode.value);
-  Cell.open(game.grid);
 });
