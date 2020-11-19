@@ -1,4 +1,5 @@
 .cell {
+  @include x-y-centered;
   background: #ddd;
   box-shadow: inset 0 -2px 0 #aaa, inset 2px 0 0 #ccc;
   border-radius: 3px;
@@ -7,5 +8,8 @@
     background: #ececec;
     box-shadow: none;
     cursor: default;
+  }
+  &.has-bomb {
+    background: #faa;
   }
 }

@@ -1,3 +1,5 @@
+import { Bombs } from "./Bombs.js";
+
 export class Cell {
   constructor(isOpened, hasBomb, hasFlag, nbOfBombsTouched) {
     this.isOpened = isOpened;
@@ -13,14 +15,20 @@ export class Cell {
   }
 
   static cellTemplate(numberOfColumns) {
-    const sideLength = `calc(calc(${
-      document.querySelector("#grid").clientWidth
-    }px - calc(1px * ${numberOfColumns - 1})) / ${numberOfColumns})`;
-    return `height:${sideLength};width:${sideLength}`;
+    const gridWidth = document.querySelector("#grid").clientWidth;
+
+    const sideLength = `calc(calc(${gridWidth}px - calc(1px * ${
+      numberOfColumns - 1
+    })) / ${numberOfColumns})`;
+
+    const fontSize =
+      Math.round((gridWidth - numberOfColumns - 1) / (2 * numberOfColumns)) +
+      "px";
+
+    return `height:${sideLength};width:${sideLength};font-size:${fontSize}`;
   }
 
-  static cellIndex(/*cell,*/ id) {
-    // const id = cell.id;
+  static cellIndex(id) {
     switch (id.length) {
       case 4: {
         return {
@@ -59,6 +67,7 @@ export class Cell {
           this.cellIndex(e.target.id).column
         ].isOpened = true;
         e.target.classList.add("visible");
+        Bombs.displayBomb(gameGrid, e.target);
       });
     });
   }

@@ -1,3 +1,5 @@
+import { Cell } from "./Cell.js";
+
 const bombsLeft = document.querySelector("#bombs-left");
 
 export class Bombs {
@@ -28,6 +30,7 @@ export class Bombs {
       bombsCoordinates.push(`L${bombPosition.line}C${bombPosition.column}`);
     }
 
+    console.log(bombsCoordinates);
     return bombsCoordinates;
   }
 
@@ -41,5 +44,17 @@ export class Bombs {
           : false;
       });
     });
+  }
+
+  static displayBomb(gameGrid, cellClicked) {
+    const cell =
+      gameGrid[Cell.cellIndex(cellClicked.id).line][
+        Cell.cellIndex(cellClicked.id).column
+      ];
+
+    if (cell.hasBomb) {
+      cellClicked.classList.add("has-bomb");
+      cellClicked.innerHTML = `<i class="fas fa-bomb"></i>`;
+    }
   }
 }
