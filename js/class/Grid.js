@@ -1,4 +1,3 @@
-import { Bombs } from "./Bombs.js";
 import { Cell } from "./Cell.js";
 
 const gridHTML = document.querySelector("#grid");
@@ -6,6 +5,8 @@ const gridHTML = document.querySelector("#grid");
 export class Grid {
   constructor(numberOfLines, numberOfColumns) {
     this.grid = [];
+    this.nbOfCellsVisible = 0;
+    this.nbOfCellsPropagated = 0;
     this.initGridObject(numberOfLines, numberOfColumns);
     this.initGridHTML(numberOfColumns);
     this.initGridTempalte(numberOfLines, numberOfColumns);
@@ -15,9 +16,12 @@ export class Grid {
     for (let line = 0; line < numberOfLines; line++) {
       this.grid.push([]);
       for (let column = 0; column < numberOfColumns; column++) {
-        this.grid[line].push(new Cell(false, false, false, 0));
+        this.grid[line].push(
+          new Cell(false, false, false, 0, `L${line}C${column}`)
+        );
       }
     }
+    console.log(this.grid);
   }
 
   initGridHTML(numberOfColumns) {

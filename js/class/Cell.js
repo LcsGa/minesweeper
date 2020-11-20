@@ -1,11 +1,10 @@
-import { Bombs } from "./Bombs.js";
-
 export class Cell {
-  constructor(isOpened, hasBomb, hasFlag, nbOfBombsTouched) {
+  constructor(isOpened, hasBomb, hasFlag, nbOfBombsTouched, cellId) {
     this.isOpened = isOpened;
     this.hasBomb = hasBomb;
     this.hasFlag = hasFlag;
     this.nbOfBombsTouched = nbOfBombsTouched;
+    this.cellId = cellId;
   }
 
   static cellHTML(lineIndex, columnIndex, numberOfColumns) {
@@ -32,19 +31,19 @@ export class Cell {
     switch (id.length) {
       case 4: {
         return {
-          line: id[1],
-          column: id[3],
+          line: +id[1],
+          column: +id[3],
         };
       }
       case 5: {
         if (/\w\d{2}\w\d/.test(id)) {
           return {
             line: +(id[1] + id[2]),
-            column: id[4],
+            column: +id[4],
           };
         } else {
           return {
-            line: id[1],
+            line: +id[1],
             column: +(id[3] + id[4]),
           };
         }
@@ -58,18 +57,97 @@ export class Cell {
     }
   }
 
-  static open(gameGrid) {
+  static openEvent(gameGrid /*, nbOfCellsVisible, nbOfCellsPropagated*/) {
     const cells = document.querySelectorAll(".cell");
 
     cells.forEach((cell) => {
       cell.addEventListener("click", (e) => {
-        gameGrid[this.cellIndex(e.target.id).line][
-          this.cellIndex(e.target.id).column
-        ].isOpened = true;
-        e.target.classList.add("visible");
-        this.displayElementWithinCell(gameGrid, e.target);
+        this.open(
+          gameGrid,
+          /* nbOfCellsVisible, nbOfCellsPropagated,*/ e.target
+        );
+        this.adjacentOpening(gameGrid, e.target);
       });
     });
+  }
+
+  static open(gameGrid, cell) {
+    gameGrid[this.cellIndex(cell.id).line][
+      this.cellIndex(cell.id).column
+    ].isOpened = true;
+    cell.classList.add("visible");
+    this.displayElementWithinCell(gameGrid, cell);
+  }
+
+  static chainOpening(gameGrid, nbOfCellsVisible, nbOfCellsPropagated, cell) {
+    let lineFocusedIndex = this.cellIndex(cell.id).line;
+    let columnFocusedIndex = this.cellIndex(cell.id).column;
+    const cellFocused = gameGrid[lineFocusedIndex][columnFocusedIndex];
+
+    //! this.nbOfCellsVisible for each this.open(...)
+    //! this.nbOfCellsPropagated for each propagation
+
+    //! Attention collision derCol
+    do {
+      if (!cellFocused.hasBomb && cellFocused.nbOfBombsTouched === 0) {
+        // TODO : Ouvrir toutes les cellules autour
+        // TODO : Modifier nbOfCellsVisible
+        // TODO : cellFocused.propaged
+      }
+    } while (nbOfCellsVisible !== nbOfCellsPropagated); //! Attention : cells avec nombre sont visibles !!
+
+    // gameGrid.forEach((line, lineIndex) => {
+    //   for (const cell of gameGrid[line]) {
+    //     if (cell.propagated) continue;
+    //     if (cell.isVisible && cell.nbOfBombsTouched === 0) {
+    //     }
+    //   }
+    // });
+
+    /*
+    this.lastCellOpened = `L${lineIndex}C${+columnIndex - 1}`;
+    if (+columnIndex === gameGrid.length - 1) {
+      +lineIndex++;
+      for (let i = 0; i < this.cellsOpenedInARow; i++) {
+        +columnIndex--;
+      }
+    }
+    if (
+      +columnIndex !== gameGrid[0].length - 1
+    ) {
+      this.open(
+        gameGrid,
+        document.querySelector(`#L${lineIndex}C${+columnIndex + 1}`)
+      );
+    }*/
+  }
+
+  static adjacentOpening(gameGrid, cellFocused) {
+    const [lineIndex, columnIndex] = [
+      this.cellIndex(cellFocused.id).line,
+      this.cellIndex(cellFocused.id).column,
+    ];
+
+    if (
+      !gameGrid[lineIndex][columnIndex].hasBomb &&
+      gameGrid[lineIndex][columnIndex].nbOfBombsTouched === 0
+    ) {
+      console.log("là");
+      // TODO : Ouvrir toutes les cellules autour
+      this.adjacentCells(gameGrid, lineIndex, columnIndex).forEach(
+        (adjacentCell) => {
+          if (adjacentCell !== undefined) {
+            this.open(
+              gameGrid,
+              document.querySelector("#" + adjacentCell.cellId)
+            );
+            //! ^ appelé ~2k-4k fois !!!!!! ^
+          }
+        }
+      );
+      // TODO : Modifier nbOfCellsVisible
+      // TODO : cellFocused.propaged
+    }
   }
 
   static addNumberOfBombsTouched(gameGrid) {
