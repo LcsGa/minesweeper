@@ -2,7 +2,7 @@ import { Grid } from "./Grid.js";
 import { Cell } from "./Cell.js";
 import { Bombs } from "./Bombs.js";
 
-export class MineSweeper extends Grid {
+export class Game extends Grid {
   constructor(gameMode) {
     super();
     this.gameMode = gameMode;

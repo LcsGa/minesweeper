@@ -1,12 +1,12 @@
 import "./style/mobile_viewport_height.js";
-import { MineSweeper } from "./class/MineSweeper.js";
+import { Game } from "./class/Game.js";
 
 const gameMode = document.querySelector("select");
 
 // init gameMode
-let game = new MineSweeper(gameMode.value);
+let game = new Game(gameMode.value);
 
 // change gameMode
 gameMode.addEventListener("change", () => {
-  game = new MineSweeper(gameMode.value);
+  game = new Game(gameMode.value);
 });
