@@ -7,25 +7,26 @@ export class MineSweeper extends Grid {
     super();
     this.gameMode = gameMode;
     this.initGameMode();
-    Cell.addNumberOfBombsTouched(this.grid);
-    Cell.openEvent(this.grid, this.nbOfCellsVisible, this.nbOfCellsPropagated);
+    Cell.addNumberOfBombsTouched(this.gridObj.grid);
+    Cell.openCellEvent(this.gridObj);
+    Cell.markdownCellWithFlagEvent(this.gridObj);
   }
 
   initGameMode() {
     switch (this.gameMode) {
       case "easy": {
-        this.grid = new Grid(9, 9).grid;
-        new Bombs(10, this.grid);
+        this.gridObj = new Grid(9, 9);
+        new Bombs(10, this.gridObj.grid);
         break;
       }
       case "medium": {
-        this.grid = new Grid(16, 12).grid;
-        new Bombs(30, this.grid);
+        this.gridObj = new Grid(16, 12);
+        new Bombs(30, this.gridObj.grid);
         break;
       }
       case "hard": {
-        this.grid = new Grid(23, 12).grid;
-        new Bombs(57, this.grid);
+        this.gridObj = new Grid(23, 12);
+        new Bombs(57, this.gridObj.grid);
         break;
       }
       default: {

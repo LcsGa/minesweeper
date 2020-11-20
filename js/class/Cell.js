@@ -1,3 +1,5 @@
+import { Grid } from "./Grid.js";
+
 export class Cell {
   constructor(isOpened, hasBomb, hasFlag, nbOfBombsTouched, cellId) {
     this.isOpened = isOpened;
@@ -27,6 +29,7 @@ export class Cell {
     return `height:${sideLength};width:${sideLength};font-size:${fontSize}`;
   }
 
+  // returns on object filled with line and column of the targeted cell(html), depending of its id
   static cellIndex(id) {
     switch (id.length) {
       case 4: {
@@ -57,99 +60,104 @@ export class Cell {
     }
   }
 
-  static openEvent(gameGrid /*, nbOfCellsVisible, nbOfCellsPropagated*/) {
-    const cells = document.querySelectorAll(".cell");
+  // Returns the cellObj of the cellHTML clicked
+  static cellObj(gameGridObj, cellHTML) {
+    return gameGridObj.grid[this.cellIndex(cellHTML.id).line][
+      this.cellIndex(cellHTML.id).column
+    ];
+  }
 
-    cells.forEach((cell) => {
-      cell.addEventListener("click", (e) => {
-        this.open(
-          gameGrid,
-          /* nbOfCellsVisible, nbOfCellsPropagated,*/ e.target
-        );
-        this.adjacentOpening(gameGrid, e.target);
+  static markdownCellWithFlagEvent(gameGridObj) {
+    Grid.cells().forEach((cellHTML) => {
+      cellHTML.addEventListener("contextmenu", (e) => {
+        if (!this.cellObj(gameGridObj, cellHTML).hasFlag) {
+          cellHTML.innerHTML = `<i class="fas fa-flag"></i>`;
+          this.cellObj(gameGridObj, cellHTML).hasFlag = true;
+          // TODO :  reduce flagsRemaining
+        } else {
+          cellHTML.innerHTML = "";
+          this.cellObj(gameGridObj, cellHTML).hasFlag = false;
+          // TODO :  increase flagsRemaining
+        }
+        e.preventDefault();
       });
     });
   }
 
-  static open(gameGrid, cell) {
-    gameGrid[this.cellIndex(cell.id).line][
-      this.cellIndex(cell.id).column
-    ].isOpened = true;
-    cell.classList.add("visible");
-    this.displayElementWithinCell(gameGrid, cell);
-  }
-
-  static chainOpening(gameGrid, nbOfCellsVisible, nbOfCellsPropagated, cell) {
-    let lineFocusedIndex = this.cellIndex(cell.id).line;
-    let columnFocusedIndex = this.cellIndex(cell.id).column;
-    const cellFocused = gameGrid[lineFocusedIndex][columnFocusedIndex];
-
-    //! this.nbOfCellsVisible for each this.open(...)
-    //! this.nbOfCellsPropagated for each propagation
-
-    //! Attention collision derCol
-    do {
-      if (!cellFocused.hasBomb && cellFocused.nbOfBombsTouched === 0) {
-        // TODO : Ouvrir toutes les cellules autour
-        // TODO : Modifier nbOfCellsVisible
-        // TODO : cellFocused.propaged
-      }
-    } while (nbOfCellsVisible !== nbOfCellsPropagated); //! Attention : cells avec nombre sont visibles !!
-
-    // gameGrid.forEach((line, lineIndex) => {
-    //   for (const cell of gameGrid[line]) {
-    //     if (cell.propagated) continue;
-    //     if (cell.isVisible && cell.nbOfBombsTouched === 0) {
-    //     }
-    //   }
-    // });
-
-    /*
-    this.lastCellOpened = `L${lineIndex}C${+columnIndex - 1}`;
-    if (+columnIndex === gameGrid.length - 1) {
-      +lineIndex++;
-      for (let i = 0; i < this.cellsOpenedInARow; i++) {
-        +columnIndex--;
-      }
-    }
-    if (
-      +columnIndex !== gameGrid[0].length - 1
-    ) {
-      this.open(
-        gameGrid,
-        document.querySelector(`#L${lineIndex}C${+columnIndex + 1}`)
-      );
-    }*/
-  }
-
-  static adjacentOpening(gameGrid, cellFocused) {
-    const [lineIndex, columnIndex] = [
-      this.cellIndex(cellFocused.id).line,
-      this.cellIndex(cellFocused.id).column,
-    ];
-
-    if (
-      !gameGrid[lineIndex][columnIndex].hasBomb &&
-      gameGrid[lineIndex][columnIndex].nbOfBombsTouched === 0
-    ) {
-      console.log("là");
-      // TODO : Ouvrir toutes les cellules autour
-      this.adjacentCells(gameGrid, lineIndex, columnIndex).forEach(
-        (adjacentCell) => {
-          if (adjacentCell !== undefined) {
-            this.open(
-              gameGrid,
-              document.querySelector("#" + adjacentCell.cellId)
-            );
-            //! ^ appelé ~2k-4k fois !!!!!! ^
-          }
+  static openCellEvent(gameGridObj) {
+    Grid.cells().forEach((cellHTML) => {
+      cellHTML.addEventListener("click", (e) => {
+        if (!this.cellObj(gameGridObj, e.target).isOpened) {
+          gameGridObj.nbOfCellsVisible++;
         }
-      );
-      // TODO : Modifier nbOfCellsVisible
-      // TODO : cellFocused.propaged
+        this.open(gameGridObj, e.target);
+        this.adjacentOpening(gameGridObj, e.target);
+      });
+    });
+  }
+
+  // Sub method used in other methods : opens the cell clicked / opened
+  static open(gameGridObj, cellHTML) {
+    this.cellObj(gameGridObj, cellHTML).isOpened = true;
+    cellHTML.classList.add("visible");
+    this.displayElementWithinCell(gameGridObj, cellHTML);
+  }
+
+  // on cell opened display : nothing, a bomb or a the number of bombs touched
+  static displayElementWithinCell(gameGridObj, cellClickedHTML) {
+    const cell = this.cellObj(gameGridObj, cellClickedHTML);
+
+    if (cell.nbOfBombsTouched > 0) {
+      cellClickedHTML.innerHTML = `<p class="nb-${cell.nbOfBombsTouched}">${cell.nbOfBombsTouched}</p>`;
+    }
+
+    if (cell.hasBomb) {
+      cellClickedHTML.innerHTML = `<i class="fas fa-bomb"></i>`;
+      cellClickedHTML.classList.add("has-bomb");
     }
   }
 
+  // Opens every cells of the grid that : is not opened, is empty and is not propagated
+  static chainOpening(gameGridObj) {
+    gameGridObj.grid.forEach((line) => {
+      line.forEach((cellObj) => {
+        const cellHTML = document.querySelector("#" + cellObj.cellId);
+        if (
+          cellObj.isOpened &&
+          !cellObj.hasBomb &&
+          cellObj.nbOfBombsTouched === 0 &&
+          !cellObj.propagated
+        ) {
+          this.adjacentOpening(gameGridObj, cellHTML);
+        }
+      });
+    });
+  }
+
+  // Opens every surrounding cell of the cell clicked of focused
+  static adjacentOpening(gameGridObj, cellFocusedHTML) {
+    const cellFocusedObj = this.cellObj(gameGridObj, cellFocusedHTML);
+
+    if (!cellFocusedObj.hasBomb && cellFocusedObj.nbOfBombsTouched === 0) {
+      this.adjacentCells(
+        gameGridObj.grid,
+        this.cellIndex(cellFocusedHTML.id).line,
+        this.cellIndex(cellFocusedHTML.id).column
+      ).forEach((adjacentCell) => {
+        if (adjacentCell !== undefined && !adjacentCell.isOpened) {
+          this.open(
+            gameGridObj,
+            document.querySelector("#" + adjacentCell.cellId)
+          );
+          gameGridObj.nbOfCellsVisible++;
+        }
+      });
+      cellFocusedObj.propagated = true;
+      this.chainOpening(gameGridObj);
+    }
+  }
+
+  // runs through the whole grid and adds the number of bombs touched by each cell
   static addNumberOfBombsTouched(gameGrid) {
     gameGrid.forEach((line, lineIndex) => {
       for (const columnIndex of line.keys()) {
@@ -164,6 +172,7 @@ export class Cell {
     });
   }
 
+  // Uses setAdjacentCells : returns an array with all of the adjacent cells surrounding the cell clicked/focused
   static adjacentCells(gameGrid, lineIndex, columnIndex) {
     switch (lineIndex) {
       case 0: {
@@ -316,6 +325,7 @@ export class Cell {
     }
   }
 
+  // Sub method  used by adjacentCells(...)
   static setAdjacentCells(
     gameGrid,
     line,
@@ -339,21 +349,5 @@ export class Cell {
       bottomLeft ? gameGrid[line + 1][column - 1] : undefined,
       left ? gameGrid[line][column - 1] : undefined,
     ];
-  }
-
-  static displayElementWithinCell(gameGrid, cellClicked) {
-    const cell =
-      gameGrid[this.cellIndex(cellClicked.id).line][
-        this.cellIndex(cellClicked.id).column
-      ];
-
-    if (cell.nbOfBombsTouched > 0) {
-      cellClicked.innerHTML = `<p class="nb-${cell.nbOfBombsTouched}">${cell.nbOfBombsTouched}</p>`;
-    }
-
-    if (cell.hasBomb) {
-      cellClicked.innerHTML = `<i class="fas fa-bomb"></i>`;
-      cellClicked.classList.add("has-bomb");
-    }
   }
 }

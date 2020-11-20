@@ -1,19 +1,14 @@
-import { Cell } from "./Cell.js";
-
 const bombsLeft = document.querySelector("#bombs-left");
 
 export class Bombs {
-  constructor(numberOfBombs, grid) {
+  constructor(numberOfBombs, gridObj) {
     this.numberOfBombs = numberOfBombs;
-    this.initBombsLeftHTML();
-    this.bombsCoordinates = this.setBombsCoordinates(grid);
-    this.initBombsObj(grid);
-  }
-
-  initBombsLeftHTML() {
     bombsLeft.innerHTML = this.numberOfBombs;
+    this.bombsCoordinates = this.setBombsCoordinates(gridObj);
+    this.initBombsObj(gridObj);
   }
 
+  // Returns an array containing randoms coordinates for bombs to be placed
   setBombsCoordinates(grid) {
     const bombsCoordinates = [];
     const bombPosition = {};
@@ -33,6 +28,7 @@ export class Bombs {
     return bombsCoordinates;
   }
 
+  // Uses setBombsCoordinates(...) method to set each hasBomb property of the cell of the grid to true
   initBombsObj(gameGrid) {
     gameGrid.forEach((line, lineIndex) => {
       line.forEach((cell, columnIndex) => {

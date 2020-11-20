@@ -21,7 +21,6 @@ export class Grid {
         );
       }
     }
-    console.log(this.grid);
   }
 
   initGridHTML(numberOfColumns) {
@@ -38,5 +37,9 @@ export class Grid {
 
   initGridTempalte(numberOfLines, numberOfColumns) {
     gridHTML.style.gridTemplate = `repeat(${numberOfLines},1fr) / repeat(${numberOfColumns},1fr)`;
+  }
+
+  static cells() {
+    return document.querySelectorAll(".cell");
   }
 }
