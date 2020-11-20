@@ -16,17 +16,17 @@ export class Game extends Grid {
     switch (this.gameMode) {
       case "easy": {
         this.gridObj = new Grid(9, 9);
-        new Bombs(10, this.gridObj.grid);
+        this.bombs = new Bombs(10, this.gridObj.grid);
         break;
       }
       case "medium": {
         this.gridObj = new Grid(16, 12);
-        new Bombs(30, this.gridObj.grid);
+        this.bombs = new Bombs(30, this.gridObj.grid);
         break;
       }
       case "hard": {
         this.gridObj = new Grid(23, 12);
-        new Bombs(57, this.gridObj.grid);
+        this.bombs = new Bombs(57, this.gridObj.grid);
         break;
       }
       default: {

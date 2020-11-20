@@ -40,4 +40,20 @@ export class Bombs {
       });
     });
   }
+
+  static nbOfBombsLeft(action) {
+    switch (action) {
+      case "reduce": {
+        break;
+      }
+      case "increase": {
+        break;
+      }
+      default: {
+        console.error(
+          `"${action}" action unknown for Bombs.nbOfBombsLeft(...) methods !`
+        );
+      }
+    }
+  }
 }

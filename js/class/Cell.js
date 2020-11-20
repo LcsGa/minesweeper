@@ -1,3 +1,4 @@
+import { Bombs } from "./Bombs.js";
 import { Grid } from "./Grid.js";
 
 export class Cell {
@@ -69,35 +70,39 @@ export class Cell {
 
   static markdownCellWithFlagEvent(gameGridObj) {
     Grid.cells().forEach((cellHTML) => {
-      cellHTML.addEventListener("contextmenu", (e) => {
+      cellHTML.addEventListener("contextmenu", () => {
+        if (this.cellObj(gameGridObj, cellHTML).isOpened) return;
         if (!this.cellObj(gameGridObj, cellHTML).hasFlag) {
           cellHTML.innerHTML = `<i class="fas fa-flag"></i>`;
           this.cellObj(gameGridObj, cellHTML).hasFlag = true;
-          // TODO :  reduce flagsRemaining
+          Bombs.nbOfBombsLeft("reduce");
         } else {
           cellHTML.innerHTML = "";
           this.cellObj(gameGridObj, cellHTML).hasFlag = false;
-          // TODO :  increase flagsRemaining
+          Bombs.nbOfBombsLeft("increase");
         }
-        e.preventDefault();
       });
     });
   }
 
   static openCellEvent(gameGridObj) {
     Grid.cells().forEach((cellHTML) => {
-      cellHTML.addEventListener("click", (e) => {
-        if (!this.cellObj(gameGridObj, e.target).isOpened) {
+      if (
+        !this.cellObj(gameGridObj, cellHTML).isOpened &&
+        !this.cellObj(gameGridObj, cellHTML).hasFlag
+      ) {
+        cellHTML.addEventListener("click", (e) => {
           gameGridObj.nbOfCellsVisible++;
-        }
-        this.open(gameGridObj, e.target);
-        this.adjacentOpening(gameGridObj, e.target);
-      });
+          this.open(gameGridObj, e.target);
+          this.adjacentOpening(gameGridObj, e.target);
+        });
+      }
     });
   }
 
   // Sub method used in other methods : opens the cell clicked / opened
   static open(gameGridObj, cellHTML) {
+    if (this.cellObj(gameGridObj, cellHTML).hasFlag) return;
     this.cellObj(gameGridObj, cellHTML).isOpened = true;
     cellHTML.classList.add("visible");
     this.displayElementWithinCell(gameGridObj, cellHTML);
@@ -126,7 +131,8 @@ export class Cell {
           cellObj.isOpened &&
           !cellObj.hasBomb &&
           cellObj.nbOfBombsTouched === 0 &&
-          !cellObj.propagated
+          !cellObj.propagated &&
+          !cellObj.hasFlag
         ) {
           this.adjacentOpening(gameGridObj, cellHTML);
         }
@@ -138,7 +144,11 @@ export class Cell {
   static adjacentOpening(gameGridObj, cellFocusedHTML) {
     const cellFocusedObj = this.cellObj(gameGridObj, cellFocusedHTML);
 
-    if (!cellFocusedObj.hasBomb && cellFocusedObj.nbOfBombsTouched === 0) {
+    if (
+      !cellFocusedObj.hasBomb &&
+      cellFocusedObj.nbOfBombsTouched === 0 &&
+      !cellFocusedObj.hasFlag
+    ) {
       this.adjacentCells(
         gameGridObj.grid,
         this.cellIndex(cellFocusedHTML.id).line,

@@ -1,6 +1,6 @@
 import { Cell } from "./Cell.js";
 
-const gridHTML = document.querySelector("#grid");
+export const gridHTML = document.querySelector("#grid");
 
 export class Grid {
   constructor(numberOfLines, numberOfColumns) {
