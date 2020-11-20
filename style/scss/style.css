@@ -98,6 +98,10 @@ header #data div p {
   background: #faa;
 }
 
+.cell .fa-flag {
+  color: red;
+}
+
 .cell p {
   font-weight: bold;
 }
@@ -154,6 +158,10 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 body main {

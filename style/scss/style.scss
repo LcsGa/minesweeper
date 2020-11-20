@@ -17,6 +17,7 @@
 
 body {
   @include flexed-column;
+  user-select: none;
   main {
     @include x-y-centered;
     flex-grow: 1;
