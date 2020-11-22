@@ -68,20 +68,44 @@ export class Cell {
     ];
   }
 
-  static markdownCellWithFlagEvent(gameGridObj) {
+  static markdownCellWithFlagEvent(bombsObj, gameGridObj) {
     Grid.cells().forEach((cellHTML) => {
-      cellHTML.addEventListener("contextmenu", () => {
+      cellHTML.addEventListener("contextmenu", (e) => {
+        // if (e.which === 3) {
         if (this.cellObj(gameGridObj, cellHTML).isOpened) return;
         if (!this.cellObj(gameGridObj, cellHTML).hasFlag) {
+          if (bombsObj.numberOfBombs === 0) return;
           cellHTML.innerHTML = `<i class="fas fa-flag"></i>`;
           this.cellObj(gameGridObj, cellHTML).hasFlag = true;
-          Bombs.nbOfBombsLeft("reduce");
+          Bombs.nbOfBombsLeft(bombsObj, "reduce");
         } else {
           cellHTML.innerHTML = "";
           this.cellObj(gameGridObj, cellHTML).hasFlag = false;
-          Bombs.nbOfBombsLeft("increase");
+          Bombs.nbOfBombsLeft(bombsObj, "increase");
         }
+        // }
       });
+
+      // let longClick;
+      // window.addEventListener("touchstart", (e) => {
+      //   longClick = setTimeout(() => {
+      //     if (this.cellObj(gameGridObj, e.target).isOpened) return;
+      //     if (!this.cellObj(gameGridObj, e.target).hasFlag) {
+      //       if (bombsObj.numberOfBombs === 0) return;
+      //       e.target.innerHTML = `<i class="fas fa-flag"></i>`;
+      //       this.cellObj(gameGridObj, e.target).hasFlag = true;
+      //       Bombs.nbOfBombsLeft(bombsObj, "reduce");
+      //     } else {
+      //       e.target.innerHTML = "";
+      //       this.cellObj(gameGridObj, e.target).hasFlag = false;
+      //       Bombs.nbOfBombsLeft(bombsObj, "increase");
+      //     }
+      //   }, 250);
+      // });
+
+      // window.addEventListener("touchend", () => {
+      //   clearTimeout(longClick);
+      // });
     });
   }
 
