@@ -6,6 +6,7 @@ export class Game extends Grid {
   constructor(gameMode) {
     super();
     this.gameMode = gameMode;
+    this.started = false;
     this.initGameMode();
     Cell.addNumberOfBombsTouched(this.gridObj.grid);
     Cell.openCellEvent(this.gridObj);

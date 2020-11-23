@@ -59,6 +59,8 @@ export class Bombs {
         );
       }
     }
-    bombsLeft.innerHTML = bombsObj.numberOfBombs;
+    bombsLeft.innerHTML = `${bombsObj.numberOfBombs < 10 ? "0" : ""}${
+      bombsObj.numberOfBombs
+    }`;
   }
 }
