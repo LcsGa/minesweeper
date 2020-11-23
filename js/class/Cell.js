@@ -107,7 +107,7 @@ export class Cell {
         clearTimeout(longClick);
         setTimeout(() => {
           cellObj.clickedRecently = false;
-        }, 150);
+        }, 20);
       });
     });
   }
