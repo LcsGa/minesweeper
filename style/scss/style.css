@@ -235,4 +235,8 @@ body main {
       -ms-flex-positive: 1;
           flex-grow: 1;
 }
+
+button {
+  border: 0;
+}
 /*# sourceMappingURL=style.css.map */

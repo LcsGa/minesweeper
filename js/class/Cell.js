@@ -11,9 +11,9 @@ export class Cell {
   }
 
   static cellHTML(lineIndex, columnIndex, numberOfColumns) {
-    return `<div id="L${lineIndex}C${columnIndex}" class="cell" style="${this.cellTemplate(
+    return `<button id="L${lineIndex}C${columnIndex}" class="cell" style="${this.cellTemplate(
       numberOfColumns
-    )}"></div>`;
+    )}"></button>`;
   }
 
   static cellTemplate(numberOfColumns) {
