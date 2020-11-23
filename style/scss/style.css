@@ -103,47 +103,6 @@ header #data div p {
           transform: scale(0.001, 0.001);
 }
 
-.cell:active:before {
-  -webkit-animation: click-effect 0.8s ease-out;
-          animation: click-effect 0.8s ease-out;
-}
-
-@-webkit-keyframes click-effect {
-  50% {
-    -webkit-transform: scale(3, 3);
-            transform: scale(3, 3);
-    opacity: 0;
-  }
-  99% {
-    -webkit-transform: scale(0.001, 0.001);
-            transform: scale(0.001, 0.001);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: scale(0.001, 0.001);
-            transform: scale(0.001, 0.001);
-    opacity: 1;
-  }
-}
-
-@keyframes click-effect {
-  50% {
-    -webkit-transform: scale(3, 3);
-            transform: scale(3, 3);
-    opacity: 0;
-  }
-  99% {
-    -webkit-transform: scale(0.001, 0.001);
-            transform: scale(0.001, 0.001);
-    opacity: 0;
-  }
-  100% {
-    -webkit-transform: scale(0.001, 0.001);
-            transform: scale(0.001, 0.001);
-    opacity: 1;
-  }
-}
-
 .cell.visible {
   background: #ececec;
   -webkit-box-shadow: none;

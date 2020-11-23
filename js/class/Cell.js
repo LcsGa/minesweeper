@@ -68,44 +68,41 @@ export class Cell {
     ];
   }
 
+  // Function used in markdownCellWithFlagEvent(...)
+  static markdownCellWithFlag(gameGridObj, cellHTML, bombsObj) {
+    if (this.cellObj(gameGridObj, cellHTML).isOpened) return;
+    if (!this.cellObj(gameGridObj, cellHTML).hasFlag) {
+      if (bombsObj.numberOfBombs === 0) return;
+      cellHTML.innerHTML = `<i class="fas fa-flag"></i>`;
+      this.cellObj(gameGridObj, cellHTML).hasFlag = true;
+      Bombs.nbOfBombsLeft(bombsObj, "reduce");
+    } else {
+      cellHTML.innerHTML = "";
+      this.cellObj(gameGridObj, cellHTML).hasFlag = false;
+      Bombs.nbOfBombsLeft(bombsObj, "increase");
+    }
+    window.navigator.vibrate(10);
+  }
+
   static markdownCellWithFlagEvent(bombsObj, gameGridObj) {
     Grid.cells().forEach((cellHTML) => {
-      cellHTML.addEventListener("contextmenu", (e) => {
-        // if (e.which === 3) {
-        if (this.cellObj(gameGridObj, cellHTML).isOpened) return;
-        if (!this.cellObj(gameGridObj, cellHTML).hasFlag) {
-          if (bombsObj.numberOfBombs === 0) return;
-          cellHTML.innerHTML = `<i class="fas fa-flag"></i>`;
-          this.cellObj(gameGridObj, cellHTML).hasFlag = true;
-          Bombs.nbOfBombsLeft(bombsObj, "reduce");
-        } else {
-          cellHTML.innerHTML = "";
-          this.cellObj(gameGridObj, cellHTML).hasFlag = false;
-          Bombs.nbOfBombsLeft(bombsObj, "increase");
+      // right click
+      cellHTML.addEventListener("mousedown", (e) => {
+        if (e.which === 3) {
+          this.markdownCellWithFlag(gameGridObj, cellHTML, bombsObj);
         }
-        // }
       });
 
-      // let longClick;
-      // window.addEventListener("touchstart", (e) => {
-      //   longClick = setTimeout(() => {
-      //     if (this.cellObj(gameGridObj, e.target).isOpened) return;
-      //     if (!this.cellObj(gameGridObj, e.target).hasFlag) {
-      //       if (bombsObj.numberOfBombs === 0) return;
-      //       e.target.innerHTML = `<i class="fas fa-flag"></i>`;
-      //       this.cellObj(gameGridObj, e.target).hasFlag = true;
-      //       Bombs.nbOfBombsLeft(bombsObj, "reduce");
-      //     } else {
-      //       e.target.innerHTML = "";
-      //       this.cellObj(gameGridObj, e.target).hasFlag = false;
-      //       Bombs.nbOfBombsLeft(bombsObj, "increase");
-      //     }
-      //   }, 250);
-      // });
-
-      // window.addEventListener("touchend", () => {
-      //   clearTimeout(longClick);
-      // });
+      // long touch
+      let longClick;
+      cellHTML.addEventListener("touchstart", (e) => {
+        longClick = setTimeout(() => {
+          this.markdownCellWithFlag(gameGridObj, cellHTML, bombsObj);
+        }, 350);
+      });
+      window.addEventListener("touchend", () => {
+        clearTimeout(longClick);
+      });
     });
   }
 
@@ -115,10 +112,10 @@ export class Cell {
         !this.cellObj(gameGridObj, cellHTML).isOpened &&
         !this.cellObj(gameGridObj, cellHTML).hasFlag
       ) {
-        cellHTML.addEventListener("click", (e) => {
+        cellHTML.addEventListener("click", () => {
           gameGridObj.nbOfCellsVisible++;
-          this.open(gameGridObj, e.target);
-          this.adjacentOpening(gameGridObj, e.target);
+          this.open(gameGridObj, cellHTML);
+          this.adjacentOpening(gameGridObj, cellHTML);
         });
       }
     });
