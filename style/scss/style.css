@@ -30,12 +30,9 @@ header #game-mode option {
   background: #1d2733;
 }
 
-header #mood {
-  font-size: 1.8rem;
-}
-
-header #mood .hidden {
-  display: none;
+header .fa-sync-alt {
+  font-size: 1.3rem;
+  cursor: pointer;
 }
 
 header #data {
