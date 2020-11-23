@@ -1,3 +1,5 @@
+// import { Game } from "./Game.js";
+
 const bombsLeft = document.querySelector("#bombs-left");
 
 export class Bombs {
@@ -41,12 +43,14 @@ export class Bombs {
     });
   }
 
-  static nbOfBombsLeft(action) {
+  static nbOfBombsLeft(bombsObj, action) {
     switch (action) {
       case "reduce": {
+        bombsObj.numberOfBombs--;
         break;
       }
       case "increase": {
+        bombsObj.numberOfBombs++;
         break;
       }
       default: {
@@ -55,5 +59,6 @@ export class Bombs {
         );
       }
     }
+    bombsLeft.innerHTML = bombsObj.numberOfBombs;
   }
 }
