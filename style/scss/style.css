@@ -197,5 +197,8 @@ body main {
 
 button {
   border: 0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  outline: none;
 }
 /*# sourceMappingURL=style.css.map */
