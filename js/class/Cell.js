@@ -8,6 +8,7 @@ export class Cell {
     this.hasFlag = hasFlag;
     this.nbOfBombsTouched = nbOfBombsTouched;
     this.cellId = cellId;
+    this.clickedRecently = false;
   }
 
   static cellHTML(lineIndex, columnIndex, numberOfColumns) {
@@ -86,6 +87,7 @@ export class Cell {
 
   static markdownCellWithFlagEvent(bombsObj, gameGridObj) {
     Grid.cells().forEach((cellHTML) => {
+      const cellObj = this.cellObj(gameGridObj, cellHTML);
       // right click
       cellHTML.addEventListener("mousedown", (e) => {
         if (e.which === 3) {
@@ -95,24 +97,27 @@ export class Cell {
 
       // long touch
       let longClick;
-      cellHTML.addEventListener("touchstart", (e) => {
+      cellHTML.addEventListener("touchstart", () => {
         longClick = setTimeout(() => {
           this.markdownCellWithFlag(gameGridObj, cellHTML, bombsObj);
-        }, 350);
+          cellObj.clickedRecently = true;
+        }, 250);
       });
       window.addEventListener("touchend", () => {
         clearTimeout(longClick);
+        setTimeout(() => {
+          cellObj.clickedRecently = false;
+        }, 150);
       });
     });
   }
 
   static openCellEvent(gameGridObj) {
     Grid.cells().forEach((cellHTML) => {
-      if (
-        !this.cellObj(gameGridObj, cellHTML).isOpened &&
-        !this.cellObj(gameGridObj, cellHTML).hasFlag
-      ) {
+      const cellObj = this.cellObj(gameGridObj, cellHTML);
+      if (!cellObj.isOpened && !cellObj.hasFlag) {
         cellHTML.addEventListener("click", () => {
+          if (cellObj.clickedRecently) return;
           gameGridObj.nbOfCellsVisible++;
           this.open(gameGridObj, cellHTML);
           this.adjacentOpening(gameGridObj, cellHTML);
