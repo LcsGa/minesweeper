@@ -6,7 +6,6 @@ export class Grid {
   constructor(numberOfLines, numberOfColumns) {
     this.grid = [];
     this.nbOfCellsVisible = 0;
-    this.nbOfCellsPropagated = 0;
     this.initGridObject(numberOfLines, numberOfColumns);
     this.initGridHTML(numberOfColumns);
     this.initGridTempalte(numberOfLines, numberOfColumns);
