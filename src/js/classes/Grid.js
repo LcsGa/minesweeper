@@ -16,7 +16,7 @@ export class Grid {
       this.grid.push([]);
       for (let column = 0; column < numberOfColumns; column++) {
         this.grid[line].push(
-          new Cell(false, false, false, 0, `L${line}C${column}`)
+          new Cell(false, false, false, `L${line}C${column}`)
         );
       }
     }

@@ -2,11 +2,11 @@ import { Bombs } from "./Bombs.js";
 import { Grid } from "./Grid.js";
 
 export class Cell {
-  constructor(isOpened, hasBomb, hasFlag, nbOfBombsTouched, cellId) {
+  constructor(isOpened, hasBomb, hasFlag, cellId) {
     this.isOpened = isOpened;
     this.hasBomb = hasBomb;
     this.hasFlag = hasFlag;
-    this.nbOfBombsTouched = nbOfBombsTouched;
+    this.nbOfBombsTouched = 0;
     this.cellId = cellId;
     this.clickedRecently = false;
   }
@@ -114,15 +114,18 @@ export class Cell {
 
   static openCellEvent(gameGridObj) {
     Grid.cells().forEach((cellHTML) => {
-      const cellObj = this.cellObj(gameGridObj, cellHTML);
-      if (!cellObj.isOpened && !cellObj.hasFlag) {
-        cellHTML.addEventListener("click", () => {
+      cellHTML.addEventListener("click", () => {
+        const cellObj = this.cellObj(gameGridObj, cellHTML);
+        if (
+          !cellObj.isOpened ||
+          cellObj.nbOfBombsTouched ===
+            this.nbOfFlagsTouched(gameGridObj, cellHTML)
+        ) {
           if (cellObj.clickedRecently) return;
-          gameGridObj.nbOfCellsVisible++;
           this.open(gameGridObj, cellHTML);
           this.adjacentOpening(gameGridObj, cellHTML);
-        });
-      }
+        }
+      });
     });
   }
 
@@ -132,6 +135,7 @@ export class Cell {
     this.cellObj(gameGridObj, cellHTML).isOpened = true;
     cellHTML.classList.add("visible");
     this.displayElementWithinCell(gameGridObj, cellHTML);
+    gameGridObj.nbOfCellsVisible++;
   }
 
   // on cell opened display : nothing, a bomb or a the number of bombs touched
@@ -172,7 +176,9 @@ export class Cell {
 
     if (
       !cellFocusedObj.hasBomb &&
-      cellFocusedObj.nbOfBombsTouched === 0 &&
+      (cellFocusedObj.nbOfBombsTouched === 0 ||
+        cellFocusedObj.nbOfBombsTouched ===
+          this.nbOfFlagsTouched(gameGridObj, cellFocusedHTML)) &&
       !cellFocusedObj.hasFlag
     ) {
       this.adjacentCells(
@@ -185,7 +191,6 @@ export class Cell {
             gameGridObj,
             document.querySelector("#" + adjacentCell.cellId)
           );
-          gameGridObj.nbOfCellsVisible++;
         }
       });
       cellFocusedObj.propagated = true;
@@ -206,6 +211,18 @@ export class Cell {
         );
       }
     });
+  }
+
+  static nbOfFlagsTouched(gameGridObj, cellHTML) {
+    let nbOfFlagsTouched = 0;
+    this.adjacentCells(
+      gameGridObj.grid,
+      this.cellIndex(cellHTML.id).line,
+      this.cellIndex(cellHTML.id).column
+    ).forEach((cellObj) => {
+      if (cellObj !== undefined && cellObj.hasFlag) nbOfFlagsTouched++;
+    });
+    return nbOfFlagsTouched;
   }
 
   // Uses setAdjacentCells : returns an array with all of the adjacent cells surrounding the cell clicked/focused
