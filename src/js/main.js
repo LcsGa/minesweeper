@@ -1,7 +1,7 @@
-import "./style/mobile_viewport_height.js";
-import { Game } from "./class/Game.js";
-import { gridHTML } from "./class/Grid.js";
-import { startTimer, resetTimer } from "./timer.js";
+import "./lib/mobile_viewport_height.js";
+import { Game } from "./classes/Game.js";
+import { gridHTML } from "./classes/Grid.js";
+import { startTimer, resetTimer } from "./lib/timer.js";
 
 const gameMode = document.querySelector("select");
 const restart = document.querySelector(".fa-sync-alt");

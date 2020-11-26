@@ -1,5 +1,3 @@
-// import { Game } from "./Game.js";
-
 const bombsLeft = document.querySelector("#bombs-left");
 
 export class Bombs {
