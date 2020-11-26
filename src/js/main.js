@@ -8,12 +8,13 @@ const restart = document.querySelector(".fa-sync-alt");
 let game;
 
 // init game
-(function initGame() {
+function initGame() {
   game = new Game(gameMode.value);
   resetTimer();
   game.started = false;
   startTimer(game);
-})();
+}
+initGame();
 
 // change gameMode
 gameMode.addEventListener("change", () => initGame());
