@@ -1,3 +1,4 @@
+import { Game } from "./Game.js";
 import { Bombs } from "./Bombs.js";
 import { Grid } from "./Grid.js";
 
@@ -70,28 +71,31 @@ export class Cell {
   }
 
   // Function used in markdownCellWithFlagEvent(...)
-  static markdownCellWithFlag(gameGridObj, cellHTML, bombsObj) {
+  static markdownCellWithFlag(gameGridObj, cellHTML, gameBombsObj) {
     if (this.cellObj(gameGridObj, cellHTML).isOpened) return;
     if (!this.cellObj(gameGridObj, cellHTML).hasFlag) {
-      if (bombsObj.numberOfBombs === 0) return;
+      if (gameBombsObj.numberOfBombs === 0) return;
       cellHTML.innerHTML = `<i class="fas fa-flag"></i>`;
       this.cellObj(gameGridObj, cellHTML).hasFlag = true;
-      Bombs.nbOfBombsLeft(bombsObj, "reduce");
+      Bombs.nbOfBombsLeft(gameBombsObj, "reduce");
     } else {
       cellHTML.innerHTML = "";
       this.cellObj(gameGridObj, cellHTML).hasFlag = false;
-      Bombs.nbOfBombsLeft(bombsObj, "increase");
+      Bombs.nbOfBombsLeft(gameBombsObj, "increase");
     }
     window.navigator.vibrate(10);
   }
 
-  static markdownCellWithFlagEvent(bombsObj, gameGridObj) {
+  static markdownCellWithFlagEvent(gameBombsObj, gameGridObj) {
     Grid.cells().forEach((cellHTML) => {
       const cellObj = this.cellObj(gameGridObj, cellHTML);
       // right click
       cellHTML.addEventListener("mousedown", (e) => {
         if (e.which === 3) {
-          this.markdownCellWithFlag(gameGridObj, cellHTML, bombsObj);
+          this.markdownCellWithFlag(gameGridObj, cellHTML, gameBombsObj);
+          Game.isGameWon(gameBombsObj, gameGridObj);
+          // console.log(gameGridObj.nbOfCellsVisible, gameBombsObj.numberOfBombs); //TODO remove
+          // console.log(Game.isGameWon(gameBombsObj, gameGridObj)); //TODO remove
         }
       });
 
@@ -99,7 +103,7 @@ export class Cell {
       let longClick;
       cellHTML.addEventListener("touchstart", () => {
         longClick = setTimeout(() => {
-          this.markdownCellWithFlag(gameGridObj, cellHTML, bombsObj);
+          this.markdownCellWithFlag(gameGridObj, cellHTML, gameBombsObj);
           cellObj.clickedRecently = true;
         }, 250);
       });
@@ -112,7 +116,7 @@ export class Cell {
     });
   }
 
-  static openCellEvent(gameGridObj) {
+  static openCellEvent(gameBombsObj, gameGridObj) {
     Grid.cells().forEach((cellHTML) => {
       cellHTML.addEventListener("click", () => {
         const cellObj = this.cellObj(gameGridObj, cellHTML);
@@ -124,6 +128,9 @@ export class Cell {
           if (cellObj.clickedRecently) return;
           this.open(gameGridObj, cellHTML);
           this.adjacentOpening(gameGridObj, cellHTML);
+          Game.isGameWon(gameBombsObj, gameGridObj);
+          // console.log(gameGridObj.nbOfCellsVisible, gameBombsObj.numberOfBombs); //TODO remove
+          // console.log(Game.isGameWon(gameBombsObj, gameGridObj)); //TODO remove
         }
       });
     });
@@ -132,10 +139,12 @@ export class Cell {
   // Sub method used in other methods : opens the cell clicked / opened
   static open(gameGridObj, cellHTML) {
     if (this.cellObj(gameGridObj, cellHTML).hasFlag) return;
+    if (!this.cellObj(gameGridObj, cellHTML).isOpened) {
+      gameGridObj.nbOfCellsVisible++;
+    }
     this.cellObj(gameGridObj, cellHTML).isOpened = true;
     cellHTML.classList.add("visible");
     this.displayElementWithinCell(gameGridObj, cellHTML);
-    gameGridObj.nbOfCellsVisible++;
   }
 
   // on cell opened display : nothing, a bomb or a the number of bombs touched

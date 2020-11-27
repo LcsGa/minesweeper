@@ -9,7 +9,7 @@ export class Game extends Grid {
     this.started = false;
     this.initGameMode();
     Cell.addNumberOfBombsTouched(this.gridObj.grid);
-    Cell.openCellEvent(this.gridObj);
+    Cell.openCellEvent(this.bombsObj, this.gridObj);
     Cell.markdownCellWithFlagEvent(this.bombsObj, this.gridObj);
   }
 
@@ -34,5 +34,20 @@ export class Game extends Grid {
         console.error(`${this.gameMode} does not match any game-mode`);
       }
     }
+  }
+
+  static isGameWon(gameBombsObj, gameGridObj) {
+    console.log(gameBombsObj.numberbOfBombs);
+    console.log(
+      gameGridObj.grid.length * gameGridObj.grid[0].length -
+        gameBombsObj.numberbOfBombs
+    );
+    if (
+      gameBombsObj.numberbOfBombs === 0 &&
+      gameGridObj.nbOfCellsVisible ===
+        gameGridObj.grid.length * gameGridObj.grid[0].length -
+          gameBombsObj.numberbOfBombs
+    )
+      return true;
   }
 }
