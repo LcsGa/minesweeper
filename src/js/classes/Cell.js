@@ -77,11 +77,11 @@ export class Cell {
       if (gameBombsObj.numberOfBombs === 0) return;
       cellHTML.innerHTML = `<i class="fas fa-flag"></i>`;
       this.cellObj(gameGridObj, cellHTML).hasFlag = true;
-      Bombs.nbOfBombsLeft(gameBombsObj, "reduce");
+      Bombs.nbOfFlagsLeft(gameBombsObj, "reduce");
     } else {
       cellHTML.innerHTML = "";
       this.cellObj(gameGridObj, cellHTML).hasFlag = false;
-      Bombs.nbOfBombsLeft(gameBombsObj, "increase");
+      Bombs.nbOfFlagsLeft(gameBombsObj, "increase");
     }
     window.navigator.vibrate(10);
   }
@@ -94,8 +94,6 @@ export class Cell {
         if (e.which === 3) {
           this.markdownCellWithFlag(gameGridObj, cellHTML, gameBombsObj);
           Game.isGameWon(gameBombsObj, gameGridObj);
-          // console.log(gameGridObj.nbOfCellsVisible, gameBombsObj.numberOfBombs); //TODO remove
-          // console.log(Game.isGameWon(gameBombsObj, gameGridObj)); //TODO remove
         }
       });
 
@@ -129,8 +127,6 @@ export class Cell {
           this.open(gameGridObj, cellHTML);
           this.adjacentOpening(gameGridObj, cellHTML);
           Game.isGameWon(gameBombsObj, gameGridObj);
-          // console.log(gameGridObj.nbOfCellsVisible, gameBombsObj.numberOfBombs); //TODO remove
-          // console.log(Game.isGameWon(gameBombsObj, gameGridObj)); //TODO remove
         }
       });
     });

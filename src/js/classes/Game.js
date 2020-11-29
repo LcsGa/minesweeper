@@ -37,16 +37,11 @@ export class Game extends Grid {
   }
 
   static isGameWon(gameBombsObj, gameGridObj) {
-    console.log(gameBombsObj.numberbOfBombs);
-    console.log(
-      gameGridObj.grid.length * gameGridObj.grid[0].length -
-        gameBombsObj.numberbOfBombs
-    );
     if (
-      gameBombsObj.numberbOfBombs === 0 &&
+      gameBombsObj.nbOfFlagsLeft === 0 &&
       gameGridObj.nbOfCellsVisible ===
         gameGridObj.grid.length * gameGridObj.grid[0].length -
-          gameBombsObj.numberbOfBombs
+          gameBombsObj.numberOfBombs
     )
       return true;
   }
