@@ -78,10 +78,6 @@ export class Cell {
       cellHTML.innerHTML = `<i class="fas fa-flag"></i>`;
       this.cellObj(gameGridObj, cellHTML).hasFlag = true;
       Bombs.numberOfFlagsLeft(gameBombsObj, "reduce");
-      console.log(
-        "gameBombsObj.numberOfFlagsLeft :>> ",
-        gameBombsObj.numberOfFlagsLeft
-      );
     } else {
       cellHTML.innerHTML = "";
       this.cellObj(gameGridObj, cellHTML).hasFlag = false;
