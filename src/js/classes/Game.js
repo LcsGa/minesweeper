@@ -38,7 +38,7 @@ export class Game extends Grid {
 
   static isGameWon(gameBombsObj, gameGridObj) {
     if (
-      gameBombsObj.nbOfFlagsLeft === 0 &&
+      gameBombsObj.numberOfFlagsLeft === 0 &&
       gameGridObj.nbOfCellsVisible ===
         gameGridObj.grid.length * gameGridObj.grid[0].length -
           gameBombsObj.numberOfBombs

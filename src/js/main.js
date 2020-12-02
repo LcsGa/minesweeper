@@ -5,11 +5,13 @@ import { startTimer, resetTimer } from "./lib/timer.js";
 
 const gameMode = document.querySelector("select");
 const restart = document.querySelectorAll(".restart");
+export const victoryForm = document.querySelector("#dialog-window");
 let game;
 
 // init game
 function initGame() {
   game = new Game(gameMode.value);
+  victoryForm.style.display = "none";
   resetTimer();
   game.started = false;
   startTimer(game);
