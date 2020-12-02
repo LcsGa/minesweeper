@@ -51,11 +51,18 @@ export class Game extends Grid {
       return true;
   }
 
-  static isDone(gameBombsObj, gameGridObj) {
+  static isGameLost(gameGridObj, cellHTML) {
+    const cell = Cell.cellObj(gameGridObj, cellHTML);
+    if (!cell.hasFlag && cell.hasBomb) return true;
+  }
+
+  static isDone(gameBombsObj, gameGridObj, cellHTML) {
     if (this.isGameWon(gameBombsObj, gameGridObj)) {
       victoryForm.style.display = "flex";
       bombs.innerHTML = gameBombsObj.numberOfBombs;
       time.innerHTML = timerHTML.innerHTML;
+      stopTimer();
+    } else if (this.isGameLost(gameGridObj, cellHTML)) {
       stopTimer();
     }
   }

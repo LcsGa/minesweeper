@@ -84,7 +84,7 @@ export class Cell {
       Bombs.numberOfFlagsLeft(gameBombsObj, "increase");
     }
     window.navigator.vibrate(10);
-    Game.isDone(gameBombsObj, gameGridObj);
+    Game.isDone(gameBombsObj, gameGridObj, cellHTML);
   }
 
   static markdownCellWithFlagEvent(gameBombsObj, gameGridObj) {
@@ -126,7 +126,7 @@ export class Cell {
           if (cellObj.clickedRecently) return;
           this.open(gameGridObj, cellHTML);
           this.adjacentOpening(gameGridObj, cellHTML);
-          Game.isDone(gameBombsObj, gameGridObj);
+          Game.isDone(gameBombsObj, gameGridObj, cellHTML);
         }
       });
     });

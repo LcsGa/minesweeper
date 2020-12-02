@@ -1,4 +1,5 @@
 import { Grid } from "../classes/Grid.js";
+import { Cell } from "../classes/Cell.js";
 
 export const timerHTML = document.querySelector("#timer");
 let timerTimeOut;
@@ -14,7 +15,11 @@ export function startTimer(gameObj) {
   Grid.cells().forEach((cellHTML) => {
     ["click", "contextmenu"].forEach((event) => {
       cellHTML.addEventListener(event, () => {
-        if (!gameObj.started) timer();
+        if (
+          !gameObj.started &&
+          !Cell.cellObj(gameObj.gridObj, cellHTML).hasBomb
+        )
+          timer();
         gameObj.started = true;
       });
     });
