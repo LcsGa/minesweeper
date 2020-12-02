@@ -1,6 +1,11 @@
 import { Grid } from "./Grid.js";
 import { Cell } from "./Cell.js";
 import { Bombs } from "./Bombs.js";
+import { victoryForm } from "../main.js";
+import { timerHTML, stopTimer } from "../lib/timer.js";
+
+const bombs = document.querySelector("#bombs");
+const time = document.querySelector("#time");
 
 export class Game extends Grid {
   constructor(gameMode) {
@@ -44,5 +49,14 @@ export class Game extends Grid {
           gameBombsObj.numberOfBombs
     )
       return true;
+  }
+
+  static isDone(gameBombsObj, gameGridObj) {
+    if (this.isGameWon(gameBombsObj, gameGridObj)) {
+      victoryForm.style.display = "flex";
+      bombs.innerHTML = gameBombsObj.numberOfBombs;
+      time.innerHTML = timerHTML.innerHTML;
+      stopTimer();
+    }
   }
 }

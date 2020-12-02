@@ -1,7 +1,6 @@
 import { Game } from "./Game.js";
 import { Bombs } from "./Bombs.js";
 import { Grid } from "./Grid.js";
-import { victoryForm } from "../main.js";
 
 export class Cell {
   constructor(isOpened, hasBomb, hasFlag, cellId) {
@@ -85,8 +84,7 @@ export class Cell {
       Bombs.numberOfFlagsLeft(gameBombsObj, "increase");
     }
     window.navigator.vibrate(10);
-    if (Game.isGameWon(gameBombsObj, gameGridObj))
-      victoryForm.style.display = "flex";
+    Game.isDone(gameBombsObj, gameGridObj);
   }
 
   static markdownCellWithFlagEvent(gameBombsObj, gameGridObj) {
@@ -128,8 +126,7 @@ export class Cell {
           if (cellObj.clickedRecently) return;
           this.open(gameGridObj, cellHTML);
           this.adjacentOpening(gameGridObj, cellHTML);
-          if (Game.isGameWon(gameBombsObj, gameGridObj))
-            victoryForm.style.display = "flex";
+          Game.isDone(gameBombsObj, gameGridObj);
         }
       });
     });
@@ -386,7 +383,7 @@ export class Cell {
     }
   }
 
-  // Sub method  used by adjacentCells(...)
+  // Sub method used by adjacentCells(...)
   static setAdjacentCells(
     gameGrid,
     line,

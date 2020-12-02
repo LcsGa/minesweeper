@@ -1,6 +1,6 @@
 import { Grid } from "../classes/Grid.js";
 
-const timerHTML = document.querySelector("#timer");
+export const timerHTML = document.querySelector("#timer");
 let timerTimeOut;
 let seconds = -1;
 
@@ -21,8 +21,12 @@ export function startTimer(gameObj) {
   });
 }
 
-export function resetTimer() {
+export function stopTimer() {
   clearTimeout(timerTimeOut);
+}
+
+export function resetTimer() {
+  stopTimer();
   seconds = -1;
   timerHTML.innerHTML = "00";
 }
