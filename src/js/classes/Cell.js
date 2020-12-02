@@ -77,11 +77,15 @@ export class Cell {
       if (gameBombsObj.numberOfBombs === 0) return;
       cellHTML.innerHTML = `<i class="fas fa-flag"></i>`;
       this.cellObj(gameGridObj, cellHTML).hasFlag = true;
-      Bombs.nbOfFlagsLeft(gameBombsObj, "reduce");
+      Bombs.numberOfFlagsLeft(gameBombsObj, "reduce");
+      console.log(
+        "gameBombsObj.numberOfFlagsLeft :>> ",
+        gameBombsObj.numberOfFlagsLeft
+      );
     } else {
       cellHTML.innerHTML = "";
       this.cellObj(gameGridObj, cellHTML).hasFlag = false;
-      Bombs.nbOfFlagsLeft(gameBombsObj, "increase");
+      Bombs.numberOfFlagsLeft(gameBombsObj, "increase");
     }
     window.navigator.vibrate(10);
   }

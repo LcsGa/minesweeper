@@ -3,8 +3,8 @@ const bombsLeft = document.querySelector("#bombs-left");
 export class Bombs {
   constructor(numberOfBombs, gridObj) {
     this.numberOfBombs = numberOfBombs;
-    this.nbOfFlagsLeft = numberOfBombs;
-    bombsLeft.innerHTML = this.nbOfFlagsLeft;
+    this.numberOfFlagsLeft = numberOfBombs;
+    bombsLeft.innerHTML = this.numberOfFlagsLeft;
     this.bombsCoordinates = this.setBombsCoordinates(gridObj);
     this.initBombsObj(gridObj);
   }
@@ -42,24 +42,24 @@ export class Bombs {
     });
   }
 
-  static nbOfFlagsLeft(gameBombsObj, action) {
+  static numberOfFlagsLeft(gameBombsObj, action) {
     switch (action) {
       case "reduce": {
-        gameBombsObj.nbOfFlagsLeft--;
+        gameBombsObj.numberOfFlagsLeft--;
         break;
       }
       case "increase": {
-        gameBombsObj.nbOfFlagsLeft++;
+        gameBombsObj.numberOfFlagsLeft++;
         break;
       }
       default: {
         console.error(
-          `"${action}" action unknown for Bombs.nbOfFlagsLeft(...) methods !`
+          `"${action}" action unknown for Bombs.numberOfFlagsLeft(...) methods !`
         );
       }
     }
-    bombsLeft.innerHTML = `${gameBombsObj.numberOfBombs < 10 ? "0" : ""}${
-      gameBombsObj.numberOfBombs
+    bombsLeft.innerHTML = `${gameBombsObj.numberOfFlagsLeft < 10 ? "0" : ""}${
+      gameBombsObj.numberOfFlagsLeft
     }`;
   }
 }
