@@ -23,7 +23,7 @@
         <option value="medium">Medium</option>
         <option value="hard">Hard</option>
       </select>
-      <i class="fas fa-sync-alt"></i>
+      <i class="fas fa-sync-alt restart"></i>
       <div id="data">
         <div>
           <i class="far fa-flag"></i>
@@ -39,7 +39,26 @@
       <div id="grid"></div>
     </main>
     <div id="dialog-window">
-      <form></form>
+      <form>
+        <div id="text">
+          <p id="congratulations">Félicitations !</p>
+          <p>
+            Vous avez désarmocé
+            <span
+              ><i class="fas fa-bomb"></i>
+              <span id="bombs">..</span> bombes</span
+            >
+            en
+            <span
+              ><i class="far fa-clock"></i> <span id="time">..</span> secondes
+              !</span
+            >
+          </p>
+        </div>
+        <div class="restart">
+          <i class="fas fa-sync-alt"><span>Rejouer</span></i>
+        </div>
+      </form>
     </div>
     <script type="module" src="./src/js/main.js"></script>
   </body>

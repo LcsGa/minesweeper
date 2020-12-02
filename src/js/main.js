@@ -4,7 +4,7 @@ import { gridHTML } from "./classes/Grid.js";
 import { startTimer, resetTimer } from "./lib/timer.js";
 
 const gameMode = document.querySelector("select");
-const restart = document.querySelector(".fa-sync-alt");
+const restart = document.querySelectorAll(".restart");
 let game;
 
 // init game
@@ -20,7 +20,9 @@ initGame();
 gameMode.addEventListener("change", () => initGame());
 
 // restart game
-restart.addEventListener("click", () => initGame());
+restart.forEach((restartButton) =>
+  restartButton.addEventListener("click", () => initGame())
+);
 
 // prevent context menu from opening on grid right click
 gridHTML.addEventListener("contextmenu", (e) => e.preventDefault());

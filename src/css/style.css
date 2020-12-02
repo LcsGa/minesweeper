@@ -82,6 +82,51 @@ header {
     .cell p.nb-8 {
       color: purple; }
 
+#dialog-window {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.1rem; }
+  #dialog-window form {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    height: 30vh;
+    width: 90%;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    font-size: 1.2rem;
+    overflow: hidden; }
+    #dialog-window form #text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+      padding: 0 1rem;
+      color: #1d2733; }
+      #dialog-window form #text #congratulations {
+        font-size: 2.2rem;
+        font-weight: bold;
+        margin-bottom: 2rem; }
+      #dialog-window form #text p {
+        line-height: 1.8rem;
+        text-align: center; }
+    #dialog-window form .restart {
+      background: #1d2733;
+      color: #dee5f2;
+      width: 100%;
+      text-align: center;
+      padding: 1rem 0; }
+      #dialog-window form .restart i span {
+        font-family: "Roboto", sans-serif;
+        margin-left: 1rem; }
+
 :root {
   font-size: 16px;
   font-family: "Roboto", sans-serif; }
