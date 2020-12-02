@@ -72,19 +72,22 @@ export class Cell {
 
   // Function used in markdownCellWithFlagEvent(...)
   static markdownCellWithFlag(gameGridObj, cellHTML, gameBombsObj) {
-    if (this.cellObj(gameGridObj, cellHTML).isOpened) return;
-    if (!this.cellObj(gameGridObj, cellHTML).hasFlag) {
+    const cellObj = this.cellObj(gameGridObj, cellHTML);
+    if (cellObj.isOpened) return;
+    if (!cellObj.hasFlag) {
       if (gameBombsObj.numberOfBombs === 0) return;
       cellHTML.innerHTML = `<i class="fas fa-flag"></i>`;
-      this.cellObj(gameGridObj, cellHTML).hasFlag = true;
+      cellObj.hasFlag = true;
       Bombs.numberOfFlagsLeft(gameBombsObj, "reduce");
+      if (!cellObj.clickedRecently) {
+        Game.isDone(gameBombsObj, gameGridObj, cellHTML);
+      }
     } else {
       cellHTML.innerHTML = "";
-      this.cellObj(gameGridObj, cellHTML).hasFlag = false;
+      cellObj.hasFlag = false;
       Bombs.numberOfFlagsLeft(gameBombsObj, "increase");
     }
     window.navigator.vibrate(10);
-    Game.isDone(gameBombsObj, gameGridObj, cellHTML);
   }
 
   static markdownCellWithFlagEvent(gameBombsObj, gameGridObj) {
@@ -124,23 +127,35 @@ export class Cell {
             this.nbOfFlagsTouched(gameGridObj, cellHTML)
         ) {
           if (cellObj.clickedRecently) return;
-          this.open(gameGridObj, cellHTML);
-          this.adjacentOpening(gameGridObj, cellHTML);
-          Game.isDone(gameBombsObj, gameGridObj, cellHTML);
+          this.open(gameBombsObj, gameGridObj, cellHTML);
+          this.adjacentOpening(gameBombsObj, gameGridObj, cellHTML);
         }
       });
     });
   }
 
   // Sub method used in other methods : opens the cell clicked / opened
-  static open(gameGridObj, cellHTML) {
-    if (this.cellObj(gameGridObj, cellHTML).hasFlag) return;
-    if (!this.cellObj(gameGridObj, cellHTML).isOpened) {
+  static open(gameBombsObj, gameGridObj, cellHTML) {
+    const cellObj = this.cellObj(gameGridObj, cellHTML);
+    if (cellObj.hasFlag) return;
+    if (!cellObj.isOpened) {
       gameGridObj.nbOfCellsVisible++;
     }
-    this.cellObj(gameGridObj, cellHTML).isOpened = true;
+    cellObj.isOpened = true;
     cellHTML.classList.add("visible");
     this.displayElementWithinCell(gameGridObj, cellHTML);
+    Game.isDone(gameBombsObj, gameGridObj, cellHTML);
+  }
+
+  static openEveryCells(gameGridObj) {
+    gameGridObj.grid.forEach((line) => {
+      line.forEach((cellObj) => {
+        const cellHTML = document.querySelector(`#${cellObj.cellId}`);
+        if (cellObj.hasFlag) cellObj.hasFlag = false;
+        cellHTML.classList.add("visible");
+        this.displayElementWithinCell(gameGridObj, cellHTML);
+      });
+    });
   }
 
   // on cell opened display : nothing, a bomb or a the number of bombs touched
@@ -158,7 +173,7 @@ export class Cell {
   }
 
   // Opens every cells of the grid that : is not opened, is empty and is not propagated
-  static chainOpening(gameGridObj) {
+  static chainOpening(gameBombsObj, gameGridObj) {
     gameGridObj.grid.forEach((line) => {
       line.forEach((cellObj) => {
         const cellHTML = document.querySelector("#" + cellObj.cellId);
@@ -169,14 +184,14 @@ export class Cell {
           !cellObj.propagated &&
           !cellObj.hasFlag
         ) {
-          this.adjacentOpening(gameGridObj, cellHTML);
+          this.adjacentOpening(gameBombsObj, gameGridObj, cellHTML);
         }
       });
     });
   }
 
   // Opens every surrounding cell of the cell clicked of focused
-  static adjacentOpening(gameGridObj, cellFocusedHTML) {
+  static adjacentOpening(gameBombsObj, gameGridObj, cellFocusedHTML) {
     const cellFocusedObj = this.cellObj(gameGridObj, cellFocusedHTML);
 
     if (
@@ -193,13 +208,14 @@ export class Cell {
       ).forEach((adjacentCell) => {
         if (adjacentCell !== undefined && !adjacentCell.isOpened) {
           this.open(
+            gameBombsObj,
             gameGridObj,
             document.querySelector("#" + adjacentCell.cellId)
           );
         }
       });
       cellFocusedObj.propagated = true;
-      this.chainOpening(gameGridObj);
+      this.chainOpening(gameBombsObj, gameGridObj);
     }
   }
 

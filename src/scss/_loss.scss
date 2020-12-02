@@ -1,0 +1,12 @@
+#loss-window {
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+  p {
+    font-size: 2rem;
+    margin-bottom: 5rem;
+    text-align: center;
+  }
+  .restart {
+    @include x-y-centered;
+    height: 48px;
+  }
+}

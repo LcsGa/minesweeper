@@ -1,0 +1,20 @@
+.dialog-window {
+  @include x-y-centered;
+  display: none;
+  color: $white;
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  figure {
+    font-size: 1.2rem;
+    .restart {
+      width: 100%;
+      text-align: center;
+      i span {
+        font-family: "Roboto", sans-serif;
+        margin-left: 1rem;
+      }
+    }
+  }
+}

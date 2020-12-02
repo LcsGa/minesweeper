@@ -38,8 +38,8 @@
     <main>
       <div id="grid"></div>
     </main>
-    <div id="dialog-window">
-      <form>
+    <div id="victory-window" class="dialog-window">
+      <figure>
         <div id="text">
           <p id="congratulations">Félicitations !</p>
           <p>
@@ -58,7 +58,15 @@
         <div class="restart">
           <i class="fas fa-sync-alt"><span>Rejouer</span></i>
         </div>
-      </form>
+      </figure>
+    </div>
+    <div id="loss-window" class="dialog-window">
+      <figure>
+        <p>Désolé, vous avez perdu !</p>
+        <div class="restart">
+          <i class="fas fa-sync-alt"><span>Rejouer</span></i>
+        </div>
+      </figure>
     </div>
     <script type="module" src="./src/js/main.js"></script>
   </body>

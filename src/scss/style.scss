@@ -3,7 +3,9 @@
 @import "header";
 @import "grid";
 @import "cell";
-@import "dialog";
+@import "dialog-window";
+@import "victory";
+@import "loss";
 
 :root {
   font-size: 16px;

@@ -1,7 +1,7 @@
 import { Grid } from "./Grid.js";
 import { Cell } from "./Cell.js";
 import { Bombs } from "./Bombs.js";
-import { victoryForm } from "../main.js";
+import { victoryWindow, lossWindow } from "../main.js";
 import { timerHTML, stopTimer } from "../lib/timer.js";
 
 const bombs = document.querySelector("#bombs");
@@ -52,17 +52,19 @@ export class Game extends Grid {
   }
 
   static isGameLost(gameGridObj, cellHTML) {
-    const cell = Cell.cellObj(gameGridObj, cellHTML);
-    if (!cell.hasFlag && cell.hasBomb) return true;
+    const cellObj = Cell.cellObj(gameGridObj, cellHTML);
+    if (!cellObj.hasFlag && cellObj.hasBomb) return true;
   }
 
   static isDone(gameBombsObj, gameGridObj, cellHTML) {
     if (this.isGameWon(gameBombsObj, gameGridObj)) {
-      victoryForm.style.display = "flex";
+      victoryWindow.style.display = "flex";
       bombs.innerHTML = gameBombsObj.numberOfBombs;
       time.innerHTML = timerHTML.innerHTML;
       stopTimer();
     } else if (this.isGameLost(gameGridObj, cellHTML)) {
+      lossWindow.style.display = "flex";
+      Cell.openEveryCells(gameGridObj);
       stopTimer();
     }
   }
