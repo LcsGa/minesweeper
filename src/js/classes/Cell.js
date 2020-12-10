@@ -21,9 +21,9 @@ export class Cell {
   static cellTemplate(numberOfColumns) {
     const gridWidth = document.querySelector("#grid").clientWidth;
 
-    const sideLength = `calc(calc(${gridWidth}px - calc(1px * ${
+    const sideLength = `calc(calc(${gridWidth}px - ${
       numberOfColumns - 1
-    })) / ${numberOfColumns})`;
+    }px) / ${numberOfColumns})`;
 
     const fontSize =
       Math.round((gridWidth - numberOfColumns - 1) / (2 * numberOfColumns)) +
