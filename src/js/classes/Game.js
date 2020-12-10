@@ -6,6 +6,7 @@ import { timerHTML, stopTimer } from "../lib/timer.js";
 
 const bombs = document.querySelector("#bombs");
 const time = document.querySelector("#time");
+const main = document.querySelector("main");
 
 export class Game extends Grid {
   constructor(gameMode) {
@@ -26,12 +27,18 @@ export class Game extends Grid {
         break;
       }
       case "medium": {
-        this.gridObj = new Grid(16, 12);
+        this.gridObj =
+          main.clienWidth > main.clientHeight
+            ? new Grid(16, 12)
+            : new Grid(12, 16);
         this.bombsObj = new Bombs(30, this.gridObj.grid);
         break;
       }
       case "hard": {
-        this.gridObj = new Grid(23, 12);
+        this.gridObj =
+          main.clienWidth > main.clientHeight
+            ? new Grid(23, 12)
+            : new Grid(12, 23);
         this.bombsObj = new Bombs(57, this.gridObj.grid);
         break;
       }
