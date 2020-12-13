@@ -23,14 +23,14 @@ function initGame() {
 initGame();
 
 // change gameMode
-gameMode.addEventListener("change", () => initGame());
+gameMode.addEventListener("change", initGame);
 
 // restart game
 restart.forEach((restartButton) =>
-  restartButton.addEventListener("click", () => initGame())
+  restartButton.addEventListener("click", initGame)
 );
 
 // prevent context menu from opening on grid/dialog-window right click
-[gridHTML, dialogWindows[0], dialogWindows[1]].forEach((element) =>
+[gridHTML, ...[...dialogWindows]].forEach((element) =>
   element.addEventListener("contextmenu", (e) => e.preventDefault())
 );
