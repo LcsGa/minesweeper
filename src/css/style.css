@@ -30,8 +30,7 @@ header {
 
 #grid {
   display: grid;
-  gap: 1px;
-  width: 90%; }
+  gap: 1px; }
 
 .cell {
   display: flex;
@@ -94,8 +93,7 @@ header {
     font-size: 1.2rem; }
     .dialog-window figure .restart {
       width: 100%;
-      text-align: center;
-      cursor: pointer; }
+      text-align: center; }
       .dialog-window figure .restart i span {
         font-family: "Roboto", sans-serif;
         margin-left: 1rem; }
@@ -162,10 +160,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-grow: 1; }
+    flex-grow: 1;
+    max-height: calc(100vh - 51px); }
 
 button {
   border: 0;
   box-shadow: none;
   outline: none;
+  cursor: pointer; }
+
+.restart {
   cursor: pointer; }

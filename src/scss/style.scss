@@ -24,6 +24,7 @@ body {
   main {
     @include x-y-centered;
     flex-grow: 1;
+    max-height: calc(100vh - 51px);
   }
 }
 
@@ -31,5 +32,9 @@ button {
   border: 0;
   box-shadow: none;
   outline: none;
+  cursor: pointer;
+}
+
+.restart {
   cursor: pointer;
 }

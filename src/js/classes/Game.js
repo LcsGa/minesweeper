@@ -9,17 +9,17 @@ const time = document.querySelector("#time");
 const main = document.querySelector("main");
 
 export class Game extends Grid {
-  constructor(gameMode) {
+  constructor(gameMode, windowWiderThanHigh = false) {
     super();
     this.gameMode = gameMode;
     this.started = false;
-    this.initGameMode();
+    this.initGameMode(windowWiderThanHigh);
     Cell.addNumberOfBombsTouched(this.gridObj.grid);
     Cell.openCellEvent(this.bombsObj, this.gridObj);
     Cell.markdownCellWithFlagEvent(this.bombsObj, this.gridObj);
   }
 
-  initGameMode() {
+  initGameMode(windowWiderThanHigh) {
     switch (this.gameMode) {
       case "easy": {
         this.gridObj = new Grid(9, 9);
@@ -27,18 +27,16 @@ export class Game extends Grid {
         break;
       }
       case "medium": {
-        this.gridObj =
-          main.clienWidth > main.clientHeight
-            ? new Grid(16, 12)
-            : new Grid(12, 16);
+        this.gridObj = windowWiderThanHigh
+          ? new Grid(12, 16)
+          : new Grid(16, 12);
         this.bombsObj = new Bombs(30, this.gridObj.grid);
         break;
       }
       case "hard": {
-        this.gridObj =
-          main.clienWidth > main.clientHeight
-            ? new Grid(23, 12)
-            : new Grid(12, 23);
+        this.gridObj = windowWiderThanHigh
+          ? new Grid(12, 23)
+          : new Grid(23, 12);
         this.bombsObj = new Bombs(57, this.gridObj.grid);
         break;
       }

@@ -1,6 +1,7 @@
 import { Game } from "./Game.js";
 import { Bombs } from "./Bombs.js";
-import { Grid } from "./Grid.js";
+import { gridHTML, Grid } from "./Grid.js";
+import { main } from "../main.js";
 
 export class Cell {
   constructor(isOpened, hasBomb, hasFlag, cellId) {
@@ -12,24 +13,74 @@ export class Cell {
     this.clickedRecently = false;
   }
 
-  static cellHTML(lineIndex, columnIndex, numberOfColumns) {
+  static cellHTML(lineIndex, columnIndex, numberOfLines, numberOfColumns) {
     return `<button id="L${lineIndex}C${columnIndex}" class="cell" style="${this.cellTemplate(
+      numberOfLines,
       numberOfColumns
     )}"></button>`;
   }
 
-  static cellTemplate(numberOfColumns) {
-    const gridWidth = document.querySelector("#grid").clientWidth;
+  static cellTemplate(numberOfLines, numberOfColumns) {
+    const gridHTML = document.querySelector("#grid");
+    let sideLength, fontSize;
 
-    const sideLength = `calc(calc(${gridWidth}px - ${
-      numberOfColumns - 1
-    }px) / ${numberOfColumns})`;
+    const styleProperties = {
+      sideLength: function (gridHeightOrWidth, numberOfColumnsOrLines) {
+        return (
+          (
+            (gridHeightOrWidth - (numberOfColumnsOrLines - 1)) /
+            numberOfColumnsOrLines
+          ).toFixed(2) + "px"
+        );
+      },
+      fontSize: function (gridHeightOrWidth, numberOfColumnsOrLines) {
+        return (
+          Math.round(
+            (gridHeightOrWidth - numberOfColumnsOrLines - 1) /
+              (2 * numberOfColumnsOrLines)
+          ) + "px"
+        );
+      },
+    };
 
-    const fontSize =
-      Math.round((gridWidth - numberOfColumns - 1) / (2 * numberOfColumns)) +
-      "px";
+    if (main.clientWidth >= main.clientHeight) {
+      sideLength = styleProperties.sideLength(
+        gridHTML.clientHeight,
+        numberOfLines
+      );
+      fontSize = styleProperties.fontSize(gridHTML.clientHeight, numberOfLines);
+      // gridHTML.style.maxHeight = "";
+      // gridHTML.style.maxWidth =
+      //   +sideLength
+      //     .split("")
+      //     .splice(0, sideLength.length - 2)
+      //     .join("") *
+      //     numberOfLines +
+      //   numberOfLines -
+      //   1 +
+      //   "px";
+    } else {
+      sideLength = styleProperties.sideLength(
+        gridHTML.clientWidth,
+        numberOfColumns
+      );
+      fontSize = styleProperties.fontSize(
+        gridHTML.clientWidth,
+        numberOfColumns
+      );
+      // gridHTML.style.maxHeight =
+      //   +sideLength
+      //     .split("")
+      //     .splice(0, sideLength.length - 2)
+      //     .join("") *
+      //     numberOfColumns +
+      //   numberOfColumns -
+      //   1 +
+      //   "px";
+      // gridHTML.style.maxWidth = "";
+    }
 
-    return `height:${sideLength};width:${sideLength};font-size:${fontSize}`;
+    return `height:${sideLength};width:${sideLength};font-size:${fontSize};max-height:${sideLength};max-width:${sideLength}`;
   }
 
   // returns on object filled with line and column of the targeted cell(html), depending of its id

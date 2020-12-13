@@ -1,10 +1,12 @@
 import "./lib/style.js";
+import { setBodyHeight } from "./lib/style.js";
 import { Game } from "./classes/Game.js";
 import { gridHTML } from "./classes/Grid.js";
 import { startTimer, resetTimer } from "./lib/timer.js";
 
 const gameMode = document.querySelector("select");
 const restart = document.querySelectorAll(".restart");
+export const main = document.querySelector("main");
 export const victoryWindow = document.querySelector("#victory-window");
 export const lossWindow = document.querySelector("#loss-window");
 const dialogWindows = document.querySelectorAll(".dialog-window");
@@ -12,7 +14,8 @@ export let game;
 
 // init game
 function initGame() {
-  game = new Game(gameMode.value);
+  setBodyHeight();
+  game = new Game(gameMode.value, main.clientWidth >= main.clientHeight);
   dialogWindows.forEach(
     (dialogWindow) => (dialogWindow.style.display = "none")
   );

@@ -1,4 +1,5 @@
 import { Cell } from "./Cell.js";
+import { main } from "../main.js";
 
 export const gridHTML = document.querySelector("#grid");
 
@@ -7,8 +8,8 @@ export class Grid {
     this.grid = [];
     this.nbOfCellsVisible = 0;
     this.initGridObject(numberOfLines, numberOfColumns);
-    this.initGridHTML(numberOfColumns);
-    this.initGridTempalte(numberOfLines, numberOfColumns);
+    this.initGridHTML(numberOfLines, numberOfColumns);
+    this.initGridTemplate(numberOfLines, numberOfColumns);
   }
 
   initGridObject(numberOfLines, numberOfColumns) {
@@ -22,19 +23,27 @@ export class Grid {
     }
   }
 
-  initGridHTML(numberOfColumns) {
+  initGridHTML(numberOfLines, numberOfColumns) {
     gridHTML.innerHTML = "";
     for (const lineIndex of this.grid.keys()) {
       for (const columnIndex of this.grid[lineIndex].keys()) {
         gridHTML.insertAdjacentHTML(
           "beforeend",
-          Cell.cellHTML(lineIndex, columnIndex, numberOfColumns)
+          Cell.cellHTML(lineIndex, columnIndex, numberOfLines, numberOfColumns)
         );
       }
     }
   }
 
-  initGridTempalte(numberOfLines, numberOfColumns) {
+  initGridTemplate(numberOfLines, numberOfColumns) {
+    if (main.clientWidth >= main.clientHeight) {
+      gridHTML.style.height = "calc(90vh - 51px)";
+      gridHTML.style.width = "";
+    } else {
+      gridHTML.style.height = "";
+      gridHTML.style.width = "90%";
+    }
+
     gridHTML.style.gridTemplate = `repeat(${numberOfLines},1fr) / repeat(${numberOfColumns},1fr)`;
   }
 
